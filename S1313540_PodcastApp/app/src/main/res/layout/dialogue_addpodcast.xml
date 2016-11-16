@@ -3,6 +3,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:text="@string/addPodcastDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/podcastDialogtxt" />
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,14 +23,14 @@
         android:layout_height="match_parent">
 
         <Button
-            android:text="Button"
+            android:text="@string/Add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Add"
             android:layout_weight="1" />
 
         <Button
-            android:text="Button"
+            android:text="@string/Cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Cancel"
