@@ -7,33 +7,14 @@
         android:text="@string/addPodcastDialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/podcastDialogtxt" />
+        android:id="@+id/podcastDialogtxt"
+        android:textAlignment="center" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Name"
+        android:inputType="textUri"
         android:ems="10"
         android:id="@+id/podcastURL" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:text="@string/Add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/Add"
-            android:layout_weight="1" />
-
-        <Button
-            android:text="@string/Cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/Cancel"
-            android:layout_weight="1" />
-    </LinearLayout>
 </LinearLayout>

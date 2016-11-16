@@ -1,19 +1,28 @@
 package com.wordpress.kagsme.s1313540_podcastapp;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class AddPodcastDialog extends DialogFragment{
-    //contains code snippets found on developer.android.com
+
+    //Declare Variables-------------------------------------------------
 
     private EditText urlEditText;
+    private String urlOutputText;
 
+    private OnCompleteListener mListener;
+
+    //Set up Dialog
+
+    //contains code snippets found on developer.android.com
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
         //use the builder class for convenient dialog construction
@@ -28,7 +37,7 @@ public class AddPodcastDialog extends DialogFragment{
                 @Override
                     public void onClick(DialogInterface dialog, int id){
                     urlEditText = (EditText)getDialog().findViewById(R.id.podcastURL);
-                    Toast.makeText(getActivity().getApplicationContext(), urlEditText.toString(), Toast.LENGTH_SHORT)
+                    setUrlOutputText(urlEditText.getText().toString());
                     }
                 })
                 .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
@@ -38,6 +47,30 @@ public class AddPodcastDialog extends DialogFragment{
                 });
         return builder.create();
     }
+    private void setUrlOutputText(String value){
+        urlOutputText = value;
+        this.mListener.onComplete(urlOutputText);
+    }
+
+    public String getUrlOutputText(){
+        return urlOutputText;
+    }
+//Contains modified code snippets from developer.android.com & http://stackoverflow.com/questions/15121373/returning-string-from-dialog-fragment-back-to-activity
+    public static interface OnCompleteListener{
+        public abstract void onComplete(String podcastURL);
+    }
+
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+        try {
+            this.mListener = (OnCompleteListener)getActivity();
+        }
+        catch (final ClassCastException e){
+            throw new ClassCastException(getActivity().toString() + " must implement OnCompleteListener");
+        }
+    }
 }
+
 
 //Authored by Kieran Anthony Gallagher S1313540

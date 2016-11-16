@@ -6,15 +6,17 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity
+        implements AddPodcastDialog.OnCompleteListener {
+    //set up main activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
-    //menu
+    //set up menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -36,5 +38,10 @@ public class MainActivity extends AppCompatActivity {
     public void AddPodcast() {
         DialogFragment newAddPodcastFragment = new AddPodcastDialog();
         newAddPodcastFragment.show(getFragmentManager(), "Add Podcast");
+    }
+    //when addPodcastURL dialog has closed this callback is called
+    @Override
+    public void onComplete(String podcastUrl) {
+        Toast.makeText(getApplicationContext(), podcastUrl + " passed to activity", Toast.LENGTH_SHORT).show();
     }
 }
