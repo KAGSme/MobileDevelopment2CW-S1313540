@@ -1,30 +1,50 @@
 package com.wordpress.kagsme.s1313540_podcastapp;
 
-/**
- * Created by kags1 on 13/11/2016.
- */
-
 public class PodcastDataItem {
 
-    private String episodeTitle;
-    private String episodeDesc;
-    private String episodeLink;
+    //Declare Variables--------------------------------------------------------
 
-    public PodcastDataItem(String eTitle,String eDesc,String eLink){
-        episodeTitle = eTitle;
-        episodeDesc = eLink;
-        episodeDesc = eDesc;
+    private String podcastTitle;
+    private String podcastDesc;
+    private String podcastLink;
+
+    //Declare Constructors------------------------------------------------------
+
+    public PodcastDataItem(String pTitle,String pDesc,String pLink){
+        podcastTitle = pTitle;
+        podcastDesc = pLink;
+        podcastLink = pDesc;
     }
 
-    public String getEpisodeTitle(){
-        return this.episodeTitle;
+    public PodcastDataItem(){
+        podcastTitle = "";
+        podcastDesc = "";
+        podcastLink = "";
     }
 
-    public String getEpisodeDesc(){
-        return this.episodeDesc;
+    //Getters and setters-------------------------------------------------------
+
+    public String getPodcastTitle(){
+        return this.podcastTitle;
     }
 
-    public String getEpisodeLink(){
-        return this.episodeLink;
+    public String getPodcastDesc(){
+        return this.podcastDesc;
+    }
+
+    public String getPodcastLink(){
+        return this.podcastLink;
+    }
+
+    public void setPodcastTitle(String value){
+        this.podcastTitle = value;
+    }
+
+    public void setPodcastDesc(String value){
+        this.podcastDesc = value;
+    }
+
+    public void setPodcastLink(String value){
+        this.podcastLink = value;
     }
 }

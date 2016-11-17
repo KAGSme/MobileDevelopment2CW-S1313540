@@ -4,18 +4,20 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:text="@string/addPodcastDialog"
+        android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/podcastDialogtxt"
-        android:textAlignment="center" />
+        android:id="@+id/episodeTitle" />
 
-    <EditText
+    <TextView
+        android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textUri"
-        android:ems="10"
-        android:id="@+id/podcastURL"
-        android:text="http://rebelfm.libsyn.com/rss" />
+        android:id="@+id/episodeDescription" />
 
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/episodeLink" />
 </LinearLayout>
