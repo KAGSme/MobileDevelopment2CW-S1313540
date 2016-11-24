@@ -1,14 +1,15 @@
 package com.wordpress.kagsme.s1313540_podcastapp;
 
 import android.app.DialogFragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -18,24 +19,43 @@ public class MainActivity extends AppCompatActivity
 
     //Declare Variables ----------------------------------------------------
     AsyncRSSparser aRSSParser;
-    private ArrayAdapter episodeAdapter;
+    //private ArrayAdapter episodeAdapter;
+    //private ListView episodeList;
 
-    private TextView pTitleText;
-    private TextView pDescText;
-    private TextView pLinkText;
-    private ListView episodeList;
+    Toolbar toolbar;
+    ViewPager pager;
+    TabsPagerAdapter tabsAdapter;
+    SlidingTabLayout tabs;
+    CharSequence tabTitles[]={"Podcasts", "Downloads"};
+    int numberOfTabs =2;
 
     //set up main activity--------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTheme(R.style.AppTheme);
 
-        pTitleText = (TextView)findViewById(R.id.PodcastTitleTxt);
-        pDescText = (TextView)findViewById(R.id.PodcastDescriptionTxt);
-        pLinkText = (TextView)findViewById(R.id.PodcastLinkTxt);
-        episodeList = (ListView)findViewById(R.id.MainListView);
+        toolbar = (Toolbar)findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
 
+        tabsAdapter = new TabsPagerAdapter(getSupportFragmentManager(), tabTitles, numberOfTabs);
+
+        pager = (ViewPager)findViewById(R.id.pager);
+        pager.setAdapter(tabsAdapter);
+
+        tabs = (SlidingTabLayout)findViewById(R.id.tabs);
+        tabs.setDistributeEvenly(true);
+
+        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer(){
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.tabsScrollColor);
+            }
+        });
+        tabs.setViewPager(pager);
+
+        //episodeList = (ListView)findViewById(R.id.MainListView);
     }
     //set up menu-----------------------------------------------------------
     @Override
@@ -77,7 +97,7 @@ public class MainActivity extends AppCompatActivity
         {
             e.printStackTrace();
         }
-        episodeAdapter = new EpisodeDisplayAdapter(this, episodeDataItems);
-        episodeList.setAdapter(episodeAdapter);
+        //episodeAdapter = new EpisodeDisplayAdapter(this, episodeDataItems);
+        //episodeList.setAdapter(episodeAdapter);
     }
 }

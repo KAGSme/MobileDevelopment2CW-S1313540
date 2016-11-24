@@ -45,6 +45,7 @@ public class AddPodcastDialog extends DialogFragment{
                     AddPodcastDialog.this.getDialog().cancel();
                     }
                 });
+        builder.setTitle("Add Podcast");
         return builder.create();
     }
     private void setUrlOutputText(String value){

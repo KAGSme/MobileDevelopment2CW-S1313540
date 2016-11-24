@@ -3,4 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="podRed">#ff0066</color>
+    <color name="downBlue">#00a2ff</color>
+    <color name="tabsScrollColor">#ffffff</color>
 </resources>
