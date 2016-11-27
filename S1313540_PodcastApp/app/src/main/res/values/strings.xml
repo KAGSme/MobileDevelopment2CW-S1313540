@@ -3,4 +3,6 @@
     <string name="addPodcastDialog">Type in the URL of the podcasts RSS feed</string>
     <string name="Add">Add</string>
     <string name="Cancel">Cancel</string>
+    <string name="MainActivityTitle">Podcast App</string>
+    <string name="PodcastActivityTitle">Podcast Episodes</string>
 </resources>

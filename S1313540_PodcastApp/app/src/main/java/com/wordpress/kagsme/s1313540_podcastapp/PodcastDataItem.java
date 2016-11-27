@@ -4,6 +4,7 @@ public class PodcastDataItem {
 
     //Declare Variables--------------------------------------------------------
 
+    private int podcastID;
     private String podcastTitle;
     private String podcastDesc;
     private String podcastLink;
@@ -17,12 +18,16 @@ public class PodcastDataItem {
     }
 
     public PodcastDataItem(){
+        podcastID = 0;
         podcastTitle = "";
         podcastDesc = "";
         podcastLink = "";
     }
 
     //Getters and setters-------------------------------------------------------
+    public int getPodcastID(){
+        return this.podcastID;
+    }
 
     public String getPodcastTitle(){
         return this.podcastTitle;
@@ -34,6 +39,10 @@ public class PodcastDataItem {
 
     public String getPodcastLink(){
         return this.podcastLink;
+    }
+
+    public void setPodcastID(int value){
+        this.podcastID = value;
     }
 
     public void setPodcastTitle(String value){
