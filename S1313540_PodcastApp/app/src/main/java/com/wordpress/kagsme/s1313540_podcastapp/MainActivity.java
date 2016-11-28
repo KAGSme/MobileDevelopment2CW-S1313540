@@ -18,9 +18,7 @@ public class MainActivity extends AppCompatActivity
         implements AddPodcastDialog.OnCompleteListener {
 
     //Declare Variables ----------------------------------------------------
-    AsyncRSSparser aRSSParser;
-    //private ArrayAdapter episodeAdapter;
-    //private ListView episodeList;
+    AsyncGetPodcastInfo aPodcastInfo;
 
     Toolbar toolbar;
     ViewPager pager;
@@ -54,8 +52,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
         tabs.setViewPager(pager);
-
-        //episodeList = (ListView)findViewById(R.id.MainListView);
     }
     //set up menu-----------------------------------------------------------
     @Override
@@ -80,24 +76,10 @@ public class MainActivity extends AppCompatActivity
         DialogFragment newAddPodcastFragment = new AddPodcastDialog();
         newAddPodcastFragment.show(getFragmentManager(), "Add Podcast");
     }
+
     //when addPodcastURL dialog has closed this callback is called
     @Override
     public void onComplete(String podcastUrl) {
-        aRSSParser = new AsyncRSSparser(this, podcastUrl);
-        ArrayList<EpisodeDataItem> episodeDataItems = new ArrayList<EpisodeDataItem>();
-        try
-        {
-            episodeDataItems = aRSSParser.execute().get();
-        }
-        catch(InterruptedException e)
-        {
-            e.printStackTrace();
-        }
-        catch(ExecutionException e)
-        {
-            e.printStackTrace();
-        }
-        //episodeAdapter = new EpisodeDisplayAdapter(this, episodeDataItems);
-        //episodeList.setAdapter(episodeAdapter);
+
     }
 }

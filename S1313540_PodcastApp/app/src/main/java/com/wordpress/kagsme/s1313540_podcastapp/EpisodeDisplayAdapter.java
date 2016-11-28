@@ -15,6 +15,8 @@ public class EpisodeDisplayAdapter extends ArrayAdapter<EpisodeDataItem> {
         super(context, R.layout.list_podcastepisode, items);
     }
 
+    EpisodeDataItem eDataItem;
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -24,7 +26,7 @@ public class EpisodeDisplayAdapter extends ArrayAdapter<EpisodeDataItem> {
         TextView descView = (TextView)episodeListView.findViewById(R.id.episodeDescription);
         TextView linkView = (TextView)episodeListView.findViewById(R.id.episodeLink);
 
-        EpisodeDataItem eDataItem = new EpisodeDataItem();
+        eDataItem = new EpisodeDataItem();
         if(getItem(position) != null)eDataItem = getItem(position);
 
         titleView.setText(eDataItem.getEpisodeTitle());

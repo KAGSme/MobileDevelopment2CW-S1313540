@@ -12,6 +12,8 @@ public class AsyncRSSparser extends AsyncTask<String, Integer, ArrayList<Episode
     private Context appContext;
     private String podcastUrlRSS;
 
+    private sendEDataItemsListener mListener;
+
     public AsyncRSSparser(Context context, String podcastUrl)
     {
         appContext = context;
@@ -20,7 +22,7 @@ public class AsyncRSSparser extends AsyncTask<String, Integer, ArrayList<Episode
 
     @Override
     protected void onPreExecute(){
-        Toast.makeText(appContext, "Parsing started!", Toast.LENGTH_LONG).show();
+        Toast.makeText(appContext, "Parsing started!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -29,7 +31,7 @@ public class AsyncRSSparser extends AsyncTask<String, Integer, ArrayList<Episode
         PodcastRSSparser pParser = new PodcastRSSparser();
         try
         {
-            pParser.ParseRSSData(podcastUrlRSS);
+            pParser.ParseRSSData(podcastUrlRSS, false);
         }
         catch (MalformedURLException e)
         {
@@ -42,6 +44,12 @@ public class AsyncRSSparser extends AsyncTask<String, Integer, ArrayList<Episode
     protected void onPostExecute(ArrayList<EpisodeDataItem> result)
     {
         Toast.makeText(appContext, "Parsing finished", Toast.LENGTH_SHORT).show();
+        this.mListener = (sendEDataItemsListener) appContext;
+        this.mListener.SendEDataItem(result);
+    }
+
+    public interface sendEDataItemsListener{
+        public void SendEDataItem(ArrayList<EpisodeDataItem> eDatas);
     }
 }
 

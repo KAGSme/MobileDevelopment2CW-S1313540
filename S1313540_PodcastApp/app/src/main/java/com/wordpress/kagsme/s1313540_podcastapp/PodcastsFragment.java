@@ -34,8 +34,13 @@ public class PodcastsFragment extends Fragment {
                 new AdapterView.OnItemClickListener(){
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        //switch view
+                        PodcastDataItem eda = (PodcastDataItem) parent.getItemAtPosition(position);
+
                         Intent podcastActivity = new Intent(appContext, PodcastEpisodesActivity.class);
+                        podcastActivity.putExtra("pTitle", eda.getPodcastTitle());
+                        podcastActivity.putExtra("pDesc", eda.getPodcastDesc());
+                        podcastActivity.putExtra("pLink", eda.getPodcastLink());
+                        //switch view
                         appContext.startActivity(podcastActivity);
                     }
                 }

@@ -9,7 +9,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:label="@string/MainActivityTitle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".PodcastEpisodesActivity"
-            android:label="Podcast Episode"></activity>
+            android:label="@string/PodcastActivityTitle"></activity>
     </application>
 
 </manifest>
