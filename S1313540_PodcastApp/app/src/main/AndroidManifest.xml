@@ -3,6 +3,8 @@
     package="com.wordpress.kagsme.s1313540_podcastapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,7 +20,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".PodcastEpisodesActivity"
-            android:label="@string/PodcastActivityTitle"></activity>
+            android:label="@string/PodcastActivityTitle"/>
+        <activity android:name=".MapActivity"
+            android:label="@string/PodcastActivityTitle"/>
     </application>
 
 </manifest>

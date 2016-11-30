@@ -9,6 +9,7 @@ public class TabsPagerAdapter extends FragmentStatePagerAdapter {
     CharSequence tabTitles[];
     int numOfTabs;
 
+    Fragment[] registeredFragments = new Fragment[2];
 
     public TabsPagerAdapter(FragmentManager fm, CharSequence[] titles, int noTitles)
     {
@@ -21,9 +22,9 @@ public class TabsPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int index){
         switch(index){
             case 0:
-                return new PodcastsFragment();
+                return registeredFragments[0] = new PodcastsFragment();
             case 1:
-                return new DownloadsFragment();
+                return registeredFragments[1] = new DownloadsFragment();
         }
         return null;
     }
@@ -37,5 +38,9 @@ public class TabsPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public CharSequence getPageTitle(int position){
         return tabTitles[position];
+    }
+
+    public Fragment getRgisteredFragment(int position){
+        return registeredFragments[position];
     }
 }

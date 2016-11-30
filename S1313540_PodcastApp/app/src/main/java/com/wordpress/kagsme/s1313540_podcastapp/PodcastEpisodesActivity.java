@@ -8,8 +8,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -25,7 +27,11 @@ public class PodcastEpisodesActivity extends AppCompatActivity implements AsyncR
     private TextView pDescV;
     private String pLink;
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
+
+    private ProgressBar pBar;
+
+    boolean refreshDone = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +55,9 @@ public class PodcastEpisodesActivity extends AppCompatActivity implements AsyncR
         pDescV.setText(iMainAct.getStringExtra("pDesc"));
 
         pLink = iMainAct.getStringExtra("pLink");
+
+        pBar = (ProgressBar) findViewById(R.id.progressBarEpisodes);
+        pBar.setVisibility(View.INVISIBLE);
     }
 
     //set up menu-----------------------------------------------------------
@@ -79,12 +88,25 @@ public class PodcastEpisodesActivity extends AppCompatActivity implements AsyncR
 
     private void RefreshList(String podcastURL)
     {
-        aRSSParser = new AsyncRSSparser(this, podcastURL);
-        aRSSParser.execute();
+        if(refreshDone)
+        {
+            pBar.setVisibility(View.VISIBLE);
+            refreshDone = false;
+            aRSSParser = new AsyncRSSparser(this, podcastURL);
+            aRSSParser.execute();
+        }
+        else
+        {
+            Log.e("s1313540", "Currently refreshing");
+        }
     }
 
     @Override
     public void SendEDataItem(ArrayList<EpisodeDataItem> eDatas){
+
+        refreshDone = true;
+        pBar.setVisibility(View.INVISIBLE);
+
         ArrayList<EpisodeDataItem> episodeDataItems = eDatas;
 
         if(episodeAdapter != null)episodeAdapter.clear();

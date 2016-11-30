@@ -1,6 +1,9 @@
 package com.wordpress.kagsme.s1313540_podcastapp;
 
+import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.FragmentManager;
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,6 +33,8 @@ public class MainActivity extends AppCompatActivity
 
     private PodcastInfoDBMgr dbMgr;
     private boolean dbDirty;
+
+    FragmentManager fmAboutDialog;
 
     public PodcastInfoDBMgr getDbMgr() {
         return dbMgr;
@@ -62,6 +67,8 @@ public class MainActivity extends AppCompatActivity
             }
         });
         tabs.setViewPager(pager);
+
+        fmAboutDialog = this.getFragmentManager();
     }
 
     //set up menu-----------------------------------------------------------
@@ -79,11 +86,17 @@ public class MainActivity extends AppCompatActivity
             case R.id.addPodcastRSS:
                 AddPodcast();
                 return true;
+            case R.id.about:
+                aboutDialog();
+                return true;
+            case R.id.map:
+                Intent mapActivity = new Intent(this, MapActivity.class);
+                startActivity(mapActivity);
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
+    //Create the dialog for adding podcasts
     public void AddPodcast() {
         DialogFragment newAddPodcastFragment = new AddPodcastDialog();
         newAddPodcastFragment.show(getFragmentManager(), "Add Podcast");
@@ -92,8 +105,15 @@ public class MainActivity extends AppCompatActivity
     //when addPodcastURL dialog has closed this callback is called
     @Override
     public void onComplete(String podcastUrl) {
-        aPodcastInfo = new AsyncGetPodcastInfo(this, podcastUrl, dbMgr);
+        aPodcastInfo = new AsyncGetPodcastInfo(this, podcastUrl, dbMgr, (PodcastsFragment) tabsAdapter.getRgisteredFragment(0));
         aPodcastInfo.execute();
+    }
+
+    //Create the about dialog
+    public void aboutDialog()
+    {
+        DialogFragment aboutDig = new AboutDialogue();
+        aboutDig.show(fmAboutDialog, "menu");
     }
 
     public void CreateDatabase() {

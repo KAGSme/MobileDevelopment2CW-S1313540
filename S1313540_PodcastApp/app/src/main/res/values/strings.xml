@@ -5,4 +5,8 @@
     <string name="Cancel">Cancel</string>
     <string name="MainActivityTitle">Podcast App</string>
     <string name="PodcastActivityTitle">Podcast Episodes</string>
+    <string name="MapActivityTitle">Map Activity</string>
+    <string name="aboutdialog_text">This app was developed by Kieran A. Gallagher\nS1313540 \n\nThe app can be used to view/track the episodes of a podcast and allow the user to listen to downloaded episodes.</string>
+    <string name="Confirm">Confirm</string>
+    <string name="testURL">http://superbestfriendsplay.com/?feed=podcast</string>
 </resources>

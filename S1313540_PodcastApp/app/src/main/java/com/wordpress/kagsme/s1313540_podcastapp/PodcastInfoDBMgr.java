@@ -125,17 +125,22 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
     }
 
     public  void addPodcastInfo(PodcastDataItem pDataItem){
+        if(pDataItem != null) {
+            if(pDataItem.getPodcastTitle() != "")
+            {
+                ContentValues values = new ContentValues();
+                values.put(COL_PODCASTTITLE, pDataItem.getPodcastTitle());
+                values.put(COL_PODCASTDESC, pDataItem.getPodcastDesc());
+                values.put(COL_PODCASTRSSLINK, pDataItem.getPodcastLink());
 
-        ContentValues values = new ContentValues();
-        values.put(COL_PODCASTTITLE, pDataItem.getPodcastTitle());
-        values.put(COL_PODCASTDESC, pDataItem.getPodcastDesc());
-        values.put(COL_PODCASTRSSLINK, pDataItem.getPodcastLink());
+                SQLiteDatabase db = this.getWritableDatabase();
 
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        db.insert(TBL_PODCASTINFO, null, values);
-        Log.d("SQLiteHelper", "Added Podcast " + pDataItem.getPodcastTitle());
-        db.close();
+                db.insert(TBL_PODCASTINFO, null, values);
+                Log.d("SQLiteHelper", "Added Podcast " + pDataItem.getPodcastTitle());
+                db.close();
+            }
+        }
+        else Log.e("SQLiteHelper", "Podcast item is null");
     }
 
     public PodcastDataItem findPodcastDataItem(String aPodcast)

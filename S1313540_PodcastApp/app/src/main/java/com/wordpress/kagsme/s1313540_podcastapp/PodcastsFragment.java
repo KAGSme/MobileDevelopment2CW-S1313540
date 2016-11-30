@@ -60,16 +60,17 @@ public class PodcastsFragment extends Fragment {
 
         RetrieveTable();
         DisplayPodcastDatabaseTableAsList();
-        Log.d("s1313540", "Pfragment Resumed");
+        Log.d("s1313540", "PFragment Resumed");
     }
 
-    private void RetrieveTable(){
+    public void RetrieveTable(){
         dbMgr = ((MainActivity) getActivity()).getDbMgr();
     }
 
-    private void DisplayPodcastDatabaseTableAsList(){
+    public void DisplayPodcastDatabaseTableAsList(){
         if(podcastAdapter != null) podcastAdapter.clear();
         podcastAdapter = new PodcastDisplayAdapter(appContext, dbMgr.getAllPodcastDataItems());
         podcastList.setAdapter(podcastAdapter);
+        Log.d("s1313540", "displaying table as list");
     }
 }

@@ -11,12 +11,14 @@ public class AsyncGetPodcastInfo  extends AsyncTask<String, Integer, PodcastData
     private Context appContext;
     private String podcastUrlRSS;
     private PodcastInfoDBMgr dbMgr;
+    private PodcastsFragment pFragment;
 
-    public AsyncGetPodcastInfo(Context context, String podcastUrl, PodcastInfoDBMgr databaseMgr)
+    public AsyncGetPodcastInfo(Context context, String podcastUrl, PodcastInfoDBMgr databaseMgr, PodcastsFragment pF)
     {
         appContext = context;
         podcastUrlRSS = podcastUrl;
         dbMgr = databaseMgr;
+        pFragment = pF;
     }
 
     @Override
@@ -44,7 +46,8 @@ public class AsyncGetPodcastInfo  extends AsyncTask<String, Integer, PodcastData
     {
         Toast.makeText(appContext, "Parsing finished", Toast.LENGTH_SHORT).show();
         dbMgr.addPodcastInfo(result);
-        //dbMgr.onUpgrade(dbMgr.getWritableDatabase(), 1, 2);
+        pFragment.RetrieveTable();
+        pFragment.DisplayPodcastDatabaseTableAsList();
     }
 }
 

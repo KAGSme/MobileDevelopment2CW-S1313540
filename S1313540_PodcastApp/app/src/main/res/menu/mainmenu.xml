@@ -8,4 +8,16 @@
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_add" />
 
+    <item
+        android:title="About"
+        android:id="@+id/about"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_about" />
+
+    <item
+        android:title="Map"
+        android:id="@+id/map"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_maps"/>
+
 </menu>
