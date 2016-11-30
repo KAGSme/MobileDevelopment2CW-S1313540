@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ public class PodcastsFragment extends Fragment {
 
     Context appContext;
 
+    PodcastInfoDBMgr dbMgr;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -28,7 +31,8 @@ public class PodcastsFragment extends Fragment {
         appContext = getContext();
 
         podcastList = (ListView)view.findViewById(R.id.PodcastListView);
-        DisplayPodcastDatabaseTable();
+        RetrieveTable();
+        DisplayPodcastDatabaseTableAsList();
 
         podcastList.setOnItemClickListener(
                 new AdapterView.OnItemClickListener(){
@@ -49,16 +53,22 @@ public class PodcastsFragment extends Fragment {
         return view;
     }
 
-    private void DisplayPodcastDatabaseTable(){
-        PodcastInfoDBMgr dbMgr = new PodcastInfoDBMgr(appContext, "savedPodcasts.s3db", null, 1);
-        try
-        {
-            dbMgr.dbCreate();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        RetrieveTable();
+        DisplayPodcastDatabaseTableAsList();
+        Log.d("s1313540", "Pfragment Resumed");
+    }
+
+    private void RetrieveTable(){
+        dbMgr = ((MainActivity) getActivity()).getDbMgr();
+    }
+
+    private void DisplayPodcastDatabaseTableAsList(){
+        if(podcastAdapter != null) podcastAdapter.clear();
         podcastAdapter = new PodcastDisplayAdapter(appContext, dbMgr.getAllPodcastDataItems());
         podcastList.setAdapter(podcastAdapter);
     }

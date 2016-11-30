@@ -1,6 +1,7 @@
 package com.wordpress.kagsme.s1313540_podcastapp;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -11,13 +12,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.TooManyListenersException;
 
 public class PodcastRSSparser {
     //Declare Variables------------------------------------------
-    private PodcastDataItem pDataItem;
+    private PodcastDataItem pDataItem = new PodcastDataItem();
     private ArrayList<EpisodeDataItem> eDataItems = new ArrayList<EpisodeDataItem>();
     private boolean podcastInfoOnly = false;
 
@@ -49,13 +52,13 @@ public class PodcastRSSparser {
     }
 
     //Parsing Functionality--------------------------------------
-    public void parseRSSPodcastDataItem(XmlPullParser parser, int eventType){
+    public void parseRSSPodcastDataItem(XmlPullParser parser, int eventType, String pLink){
         pDataItem = new PodcastDataItem();
         boolean isPodcastInfo = true;
-
+        pDataItem.setPodcastLink(pLink);
         try
         {
-            while(eventType != XmlPullParser.END_DOCUMENT || !isPodcastInfo)
+            while(eventType != XmlPullParser.END_DOCUMENT && isPodcastInfo)
             {
                 if(eventType == XmlPullParser.START_TAG)
                 {
@@ -67,17 +70,9 @@ public class PodcastRSSparser {
                         }
                     }
                     else
-                    if(parser.getName().equalsIgnoreCase("link"))
+                    if(parser.getName().equalsIgnoreCase("description"))
                     {
-                        if(isPodcastInfo)
-                        {
-                            pDataItem.setPodcastLink(parser.nextText());
-                        }
-                    }
-                    else
-                    if(parser.getName().endsWith("subtitle"))
-                    {
-                        Log.e("s1313540", "gotPodcastInfo");
+                        Log.e("s1313540", "got Podcast Info");
                         if(isPodcastInfo)
                         {
                             pDataItem.setPodcastDesc(parser.nextText());
@@ -139,7 +134,7 @@ public class PodcastRSSparser {
                     if(parser.getName().endsWith("subtitle"))
                     {
                         itemCount++;
-                        Log.d("s1313540", "end off item" + itemCount);
+                        Log.d("s1313540", "end of item " + itemCount);
                         if(!isPodcastInfo)
                         {
                             tmpEDataItem.setEpisodeDesc(parser.nextText());
@@ -172,7 +167,7 @@ public class PodcastRSSparser {
             RSSxmlPP.setInput(new StringReader(xmlRSS));
             int eventType = RSSxmlPP.getEventType();
 
-            if(justPodcast) parseRSSPodcastDataItem(RSSxmlPP, eventType);
+            if(justPodcast) parseRSSPodcastDataItem(RSSxmlPP, eventType, RSSFeed);
             else parseRSSDataItem(RSSxmlPP, eventType);
         }
         catch(XmlPullParserException e)
@@ -188,7 +183,14 @@ public class PodcastRSSparser {
     }
 
     public InputStream getInputStream(URL url) throws IOException {
-        return url.openConnection().getInputStream();
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setReadTimeout(10000 /*milliseconds*/);
+        conn.setConnectTimeout(15000 /*milliseconds*/);
+        conn.setRequestMethod("GET");
+        conn.setDoInput(true);
+        conn.connect();
+        return conn.getInputStream();
+
     }
 
     public static String getStringFromInputStream(InputStream stream, String charsetName) throws IOException {

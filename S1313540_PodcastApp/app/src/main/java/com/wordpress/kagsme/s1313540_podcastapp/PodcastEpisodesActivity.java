@@ -80,7 +80,6 @@ public class PodcastEpisodesActivity extends AppCompatActivity implements AsyncR
     private void RefreshList(String podcastURL)
     {
         aRSSParser = new AsyncRSSparser(this, podcastURL);
-        ArrayList<EpisodeDataItem> episodeDataItems = new ArrayList<EpisodeDataItem>();
         aRSSParser.execute();
     }
 

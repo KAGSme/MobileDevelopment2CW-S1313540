@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -27,12 +28,21 @@ public class MainActivity extends AppCompatActivity
     CharSequence tabTitles[]={"Podcasts", "Downloads"};
     int numberOfTabs =2;
 
+    private PodcastInfoDBMgr dbMgr;
+    private boolean dbDirty;
+
+    public PodcastInfoDBMgr getDbMgr() {
+        return dbMgr;
+    }
+
     //set up main activity--------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTheme(R.style.AppTheme);
+
+        CreateDatabase();
 
         toolbar = (Toolbar)findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
@@ -53,6 +63,7 @@ public class MainActivity extends AppCompatActivity
         });
         tabs.setViewPager(pager);
     }
+
     //set up menu-----------------------------------------------------------
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -60,6 +71,7 @@ public class MainActivity extends AppCompatActivity
         inflater.inflate(R.menu.mainmenu, menu);
         return true;
     }
+
     //menu item selection---------------------------------------------------
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -80,6 +92,19 @@ public class MainActivity extends AppCompatActivity
     //when addPodcastURL dialog has closed this callback is called
     @Override
     public void onComplete(String podcastUrl) {
+        aPodcastInfo = new AsyncGetPodcastInfo(this, podcastUrl, dbMgr);
+        aPodcastInfo.execute();
+    }
 
+    public void CreateDatabase() {
+        dbMgr = new PodcastInfoDBMgr(this, "savedPodcasts.s3db", null, 1);
+        try
+        {
+            dbMgr.dbCreate();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

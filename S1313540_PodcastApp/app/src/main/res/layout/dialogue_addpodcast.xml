@@ -20,6 +20,6 @@
         android:inputType="textUri"
         android:ems="10"
         android:id="@+id/podcastURL"
-        android:text="http://rebelfm.libsyn.com/rss" />
+        android:text="http://superbestfriendsplay.com/?feed=podcast" />
 
 </LinearLayout>

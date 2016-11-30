@@ -1,4 +1,4 @@
-//Was not authored by Kieran Gallagher,
+//Was not authored by me, Kieran Gallagher,
 // taken from google's opensource project to implement
 //material design correct sliding tabs
 

@@ -134,6 +134,7 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.insert(TBL_PODCASTINFO, null, values);
+        Log.d("SQLiteHelper", "Added Podcast " + pDataItem.getPodcastTitle());
         db.close();
     }
 
