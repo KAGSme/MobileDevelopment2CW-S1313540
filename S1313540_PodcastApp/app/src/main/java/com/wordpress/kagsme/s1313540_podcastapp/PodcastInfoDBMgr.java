@@ -40,7 +40,7 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db){
         String CREATE_PODCASTINFO_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 TBL_PODCASTINFO + "("
-                + COL_PODCASTID + " INTEGER PRIMARY KEY,"
+                + COL_PODCASTID + " INTEGER PRIMARY KEY NOT NULL,"
                 + COL_PODCASTTITLE + " TEXT,"
                 + COL_PODCASTDESC + " TEXT,"
                 + COL_PODCASTRSSLINK + " TEXT,"
