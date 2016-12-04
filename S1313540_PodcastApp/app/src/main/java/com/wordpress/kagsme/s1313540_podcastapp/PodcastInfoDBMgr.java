@@ -26,13 +26,14 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
     public static final String COL_PODCASTTITLE = "podcastTitle";
     public static final String COL_PODCASTDESC = "podcastDesc";
     public static final String COL_PODCASTRSSLINK = "podcastRSSLink";
+    public static final String COL_PODCASTIMAGELINK = "podcastImageLink";
 
     private final Context appContext;
 
     public PodcastInfoDBMgr(Context context, String name, SQLiteDatabase.CursorFactory factory, int version){
         super(context, name, factory, version);
         this.appContext = context;
-        DB_PATH = "/data/data/" + appContext.getPackageName() + "/databases/";
+        DB_PATH = "/data/data/" + context.getPackageName() + "/databases/";
     }
 
     @Override
@@ -42,7 +43,8 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
                 + COL_PODCASTID + " INTEGER PRIMARY KEY,"
                 + COL_PODCASTTITLE + " TEXT,"
                 + COL_PODCASTDESC + " TEXT,"
-                + COL_PODCASTRSSLINK + " TEXT" + ")";
+                + COL_PODCASTRSSLINK + " TEXT,"
+                + COL_PODCASTIMAGELINK + " TEXT" + ")";
         db.execSQL(CREATE_PODCASTINFO_TABLE);
     }
 
@@ -55,15 +57,13 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
         }
     }
 
-    public void dbCreate() throws IOException{
+    static public void dbCreate(Context context) throws IOException{
         boolean dbExist = dbCheck();
-        if(dbExist)
+        if(!dbExist)
         {
-            this.getReadableDatabase();
-
             try
             {
-                copyDBFromAssets();
+                copyDBFromAssets(context);
             }
             catch (IOException e)
             {
@@ -72,7 +72,7 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
         }
     }
 
-    private boolean dbCheck(){
+    static private boolean dbCheck(){
         SQLiteDatabase db = null;
 
         try
@@ -84,7 +84,7 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
         }
         catch (SQLiteException e)
         {
-            Log.e("SQLiteHelper", "Database not FOund");
+            Log.e("SQLiteHelper", "Database not Found");
         }
 
         if(db != null){
@@ -96,7 +96,7 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
         return db != null ? true : false;
     }
 
-    private void copyDBFromAssets() throws IOException {
+    static private void copyDBFromAssets(Context context) throws IOException {
 
         InputStream dbInput = null;
         OutputStream dbOutput = null;
@@ -104,7 +104,7 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
 
         try
         {
-            dbInput = appContext.getAssets().open(DB_NAME);
+            dbInput = context.getAssets().open(DB_NAME);
             dbOutput = new FileOutputStream(dbFileName);
 
             byte[] buffer = new byte[1024];
@@ -132,6 +132,7 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
                 values.put(COL_PODCASTTITLE, pDataItem.getPodcastTitle());
                 values.put(COL_PODCASTDESC, pDataItem.getPodcastDesc());
                 values.put(COL_PODCASTRSSLINK, pDataItem.getPodcastLink());
+                values.put(COL_PODCASTIMAGELINK, pDataItem.getPodcastImageLink());
 
                 SQLiteDatabase db = this.getWritableDatabase();
 
@@ -160,6 +161,7 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
             pDataItem.setPodcastTitle(cursor.getString(1));
             pDataItem.setPodcastDesc(cursor.getString(2));
             pDataItem.setPodcastLink(cursor.getString(3));
+            pDataItem.setPodcastImageLink(cursor.getString(4));
             cursor.close();
         }
         else
@@ -210,6 +212,7 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
             pDataItem.setPodcastTitle(cursor.getString(1));
             pDataItem.setPodcastDesc(cursor.getString(2));
             pDataItem.setPodcastLink(cursor.getString(3));
+            pDataItem.setPodcastImageLink(cursor.getString(4));
             pDataItems.add(pDataItem);
             cursor.moveToNext();
         }

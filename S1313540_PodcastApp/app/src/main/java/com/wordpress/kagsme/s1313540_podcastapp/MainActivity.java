@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void CreateDatabase() {
-        dbMgr = new PodcastInfoDBMgr(this, "storedPodcasts.s3db", null, 1);
+        dbMgr = new PodcastInfoDBMgr(this, "savedPodcasts.s3db", null, 1);
         try
         {
             PodcastInfoDBMgr.dbCreate(this);
