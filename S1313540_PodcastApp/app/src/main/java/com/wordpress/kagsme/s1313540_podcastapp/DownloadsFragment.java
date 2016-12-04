@@ -1,6 +1,7 @@
 package com.wordpress.kagsme.s1313540_podcastapp;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Environment;
@@ -53,8 +54,8 @@ public class DownloadsFragment extends Fragment {
 
     public void RetrieveDownloadsList() {
         File[] files;
-        if(appContext.getExternalFilesDir(Environment.DIRECTORY_PODCASTS).listFiles() != null)
-            files = appContext.getExternalFilesDir(null).listFiles();
+        if(appContext.getExternalFilesDir(Environment.DIRECTORY_PODCASTS).listFiles().length > 0)
+            files = appContext.getExternalFilesDir(Environment.DIRECTORY_PODCASTS).listFiles();
         else files = null;
         ArrayList<DownloadItem> dItems = new ArrayList<DownloadItem>();
 
@@ -66,6 +67,11 @@ public class DownloadsFragment extends Fragment {
                 tmp.setDownloadFileName(f.getName());
                 tmp.setDownloadTitle(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE));
                 tmp.setDownloadDuration(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
+
+                if(retriever.getEmbeddedPicture() != null)
+                    tmp.setBitmapCover(BitmapFactory.decodeByteArray(retriever.getEmbeddedPicture(), 0, retriever.getEmbeddedPicture().length));
+                else tmp.setBitmapCover(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_action_play));
+
                 dItems.add(tmp);
             }
 

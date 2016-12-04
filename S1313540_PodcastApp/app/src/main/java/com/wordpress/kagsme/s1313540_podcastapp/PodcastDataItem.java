@@ -1,6 +1,7 @@
 package com.wordpress.kagsme.s1313540_podcastapp;
 
 import android.media.Image;
+import android.util.Log;
 
 public class PodcastDataItem {
 
@@ -26,6 +27,8 @@ public class PodcastDataItem {
         podcastTitle = "";
         podcastDesc = "";
         podcastLink = "";
+        podcastImageLink = "";
+        podcastImageFName = "";
     }
 
     //Getters and setters-------------------------------------------------------
@@ -50,6 +53,7 @@ public class PodcastDataItem {
     }
 
     public String getPodcastImageFName(){
+        if(this.podcastImageFName == "") createImageFName(this.podcastImageLink);
         return this.podcastImageFName;
     }
 
@@ -71,13 +75,16 @@ public class PodcastDataItem {
 
     public void setPodcastImageLink(String value){
         this.podcastImageLink = value;
-
-        String[] parts = value.split("/");
-        String tmp = parts[parts.length-1];
-        setPodcastImageFName(tmp);
+        createImageFName(this.podcastImageLink);
     }
 
     public void setPodcastImageFName(String value){
         this.podcastImageFName = value;
+    }
+
+    private void createImageFName(String link){
+        String[] parts = link.split("/");
+        String tmp = parts[parts.length-1];
+        setPodcastImageFName(tmp);
     }
 }

@@ -2,6 +2,9 @@ package com.wordpress.kagsme.s1313540_podcastapp;
 
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
@@ -13,10 +16,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -30,6 +35,7 @@ public class PodcastEpisodesActivity extends AppCompatActivity
     private TextView pTitleV;
     private TextView pDescV;
     private String pLink;
+    private ImageView pImageV;
 
     private Toolbar toolbar;
 
@@ -38,6 +44,8 @@ public class PodcastEpisodesActivity extends AppCompatActivity
     boolean refreshDone = true;
 
     private EpisodeDataItem selectedEpisode;
+
+    Bitmap myBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +80,14 @@ public class PodcastEpisodesActivity extends AppCompatActivity
 
         pBar = (ProgressBar) findViewById(R.id.progressBarEpisodes);
         pBar.setVisibility(View.INVISIBLE);
+
+        pImageV = (ImageView) findViewById(R.id.pImageViewBig);
+
+        File file = DownloadsMgr.getImageStorageDir(this, iMainAct.getStringExtra("pImageFName"));
+        if(file.exists()&& myBitmap == null) myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+        if(myBitmap != null)pImageV.setImageBitmap(myBitmap);
+        else pImageV.setImageDrawable(getResources().getDrawable(R.drawable.ic_add));
+
     }
 
     //set up menu-----------------------------------------------------------

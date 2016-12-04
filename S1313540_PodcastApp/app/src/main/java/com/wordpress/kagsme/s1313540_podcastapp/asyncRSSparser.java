@@ -22,7 +22,7 @@ public class AsyncRSSparser extends AsyncTask<String, Integer, ArrayList<Episode
 
     @Override
     protected void onPreExecute(){
-        Toast.makeText(appContext, "Parsing started!", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(appContext, "Parsing started!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -43,7 +43,7 @@ public class AsyncRSSparser extends AsyncTask<String, Integer, ArrayList<Episode
     @Override
     protected void onPostExecute(ArrayList<EpisodeDataItem> result)
     {
-        Toast.makeText(appContext, "Parsing finished", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(appContext, "Parsing finished", Toast.LENGTH_SHORT).show();
         this.mListener = (sendEDataItemsListener) appContext;
         this.mListener.SendEDataItem(result);
     }

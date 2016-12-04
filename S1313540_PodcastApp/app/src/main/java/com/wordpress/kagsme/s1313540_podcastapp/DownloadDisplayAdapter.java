@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -22,12 +23,14 @@ public class DownloadDisplayAdapter extends ArrayAdapter<DownloadItem> {
 
         TextView titleView = (TextView)DownlodListView.findViewById(R.id.downloadTitle);
         TextView lenView = (TextView)DownlodListView.findViewById(R.id.downloadDuration);
+        ImageView iView = (ImageView) DownlodListView.findViewById(R.id.imageView);
 
         DownloadItem dItem = new DownloadItem();
         if(getItem(position) != null)dItem = getItem(position);
 
         titleView.setText(dItem.getDownloadTitle());
         lenView.setText(dItem.getDownloadLength());
+        iView.setImageBitmap(dItem.getBitmapCover());
 
         return DownlodListView;
         }

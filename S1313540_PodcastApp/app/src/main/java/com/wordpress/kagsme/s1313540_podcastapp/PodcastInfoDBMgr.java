@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,9 +19,9 @@ import java.util.Locale;
 public class PodcastInfoDBMgr extends SQLiteOpenHelper{
 
     private static final int DB_VER = 1;
-    private static String DB_PATH = "";
-    private static final String DB_NAME = "storedPodcasts.s3db";
-    private static final String TBL_PODCASTINFO = "podcastInfos";
+    private static String DB_PATH = "/data/data/com.wordpress.kagsme.s1313540_podcastapp/databases/";
+    private static final String DB_NAME = "savedPodcasts.s3db";
+    private static final String TBL_PODCASTINFO = "podcastInfo";
 
     public static final String COL_PODCASTID = "podcastID";
     public static final String COL_PODCASTTITLE = "podcastTitle";
@@ -40,7 +41,7 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db){
         String CREATE_PODCASTINFO_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 TBL_PODCASTINFO + "("
-                + COL_PODCASTID + " INTEGER PRIMARY KEY NOT NULL,"
+                + COL_PODCASTID + " INTEGER PRIMARY KEY,"
                 + COL_PODCASTTITLE + " TEXT,"
                 + COL_PODCASTDESC + " TEXT,"
                 + COL_PODCASTRSSLINK + " TEXT,"
@@ -57,13 +58,14 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
         }
     }
 
-    static public void dbCreate(Context context) throws IOException{
+    public void dbCreate() throws IOException{
         boolean dbExist = dbCheck();
         if(!dbExist)
         {
+            this.getReadableDatabase();
             try
             {
-                copyDBFromAssets(context);
+                copyDBFromAssets();
             }
             catch (IOException e)
             {
@@ -96,7 +98,7 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
         return db != null ? true : false;
     }
 
-    static private void copyDBFromAssets(Context context) throws IOException {
+    private void copyDBFromAssets() throws IOException {
 
         InputStream dbInput = null;
         OutputStream dbOutput = null;
@@ -104,7 +106,7 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
 
         try
         {
-            dbInput = context.getAssets().open(DB_NAME);
+            dbInput = appContext.getAssets().open(DB_NAME);
             dbOutput = new FileOutputStream(dbFileName);
 
             byte[] buffer = new byte[1024];
@@ -132,6 +134,7 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
                 values.put(COL_PODCASTTITLE, pDataItem.getPodcastTitle());
                 values.put(COL_PODCASTDESC, pDataItem.getPodcastDesc());
                 values.put(COL_PODCASTRSSLINK, pDataItem.getPodcastLink());
+                values.put(COL_PODCASTIMAGELINK, pDataItem.getPodcastImageLink());
                 values.put(COL_PODCASTIMAGELINK, pDataItem.getPodcastImageLink());
 
                 SQLiteDatabase db = this.getWritableDatabase();
@@ -207,16 +210,18 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
         cursor.moveToFirst();
         while(!cursor.isAfterLast())
         {
-            PodcastDataItem pDataItem = new PodcastDataItem();
-            pDataItem.setPodcastID(Integer.parseInt(cursor.getString(0)));
-            pDataItem.setPodcastTitle(cursor.getString(1));
-            pDataItem.setPodcastDesc(cursor.getString(2));
-            pDataItem.setPodcastLink(cursor.getString(3));
-            pDataItem.setPodcastImageLink(cursor.getString(4));
-            pDataItems.add(pDataItem);
+            if(cursor != null) {
+                PodcastDataItem pDataItem = new PodcastDataItem();
+                pDataItem.setPodcastID(Integer.parseInt(cursor.getString(0)));
+                pDataItem.setPodcastTitle(cursor.getString(1));
+                pDataItem.setPodcastDesc(cursor.getString(2));
+                pDataItem.setPodcastLink(cursor.getString(3));
+                pDataItem.setPodcastImageLink(cursor.getString(4));
+                pDataItems.add(pDataItem);
+            }
             cursor.moveToNext();
         }
-        cursor.close();
+        if(!cursor.moveToFirst())cursor.close();
         db.close();
         return pDataItems;
     }

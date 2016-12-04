@@ -23,7 +23,7 @@ public class AsyncGetPodcastInfo  extends AsyncTask<String, Integer, PodcastData
 
     @Override
     protected void onPreExecute(){
-        Toast.makeText(appContext, "Parsing started!", Toast.LENGTH_LONG).show();
+        //Toast.makeText(appContext, "Parsing started!", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -44,7 +44,8 @@ public class AsyncGetPodcastInfo  extends AsyncTask<String, Integer, PodcastData
     @Override
     protected void onPostExecute(PodcastDataItem result)
     {
-        Toast.makeText(appContext, "Parsing finished", Toast.LENGTH_SHORT).show();
+        if(result != null)Toast.makeText(appContext, "Added Podcast", Toast.LENGTH_SHORT).show();
+        else Toast.makeText(appContext, "Error Adding Podcast", Toast.LENGTH_SHORT).show();
         dbMgr.addPodcastInfo(result);
         pFragment.RetrieveTable();
         pFragment.DisplayPodcastDatabaseTableAsList();

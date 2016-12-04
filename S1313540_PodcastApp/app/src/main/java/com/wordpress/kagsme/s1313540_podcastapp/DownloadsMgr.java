@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,7 +31,7 @@ public class DownloadsMgr {
     public boolean DownloadAudioFile(String hostUrl, String filename, publishProgressInterface listener) {
         File file = new File(appContext.getExternalFilesDir(Environment.DIRECTORY_PODCASTS) ,filename);
         try {
-            Log.d("s1313540", "Started Download");
+            Log.d("s1313540", "Started Download" + hostUrl);
             URL server = new URL(hostUrl);
 
             HttpURLConnection connection = (HttpURLConnection) server.openConnection();
@@ -61,7 +63,7 @@ public class DownloadsMgr {
                     byteReaded = is.read(buffer);
                     listener.PublishProgress(currentProgress/1000);
                 }
-                Log.d("s1313540", "Download manager Finished Download ");
+                Log.d("s1313540", "Download manager Finished Download " + filename);
                 os.flush();
                 os.close();
                 is.close();
@@ -100,7 +102,7 @@ public class DownloadsMgr {
     }
 
     public void PlayDownloadInExternalApp(String fileName){
-        File file = new File(appContext.getExternalFilesDir(null), fileName);
+        File file = new File(appContext.getExternalFilesDir(Environment.DIRECTORY_PODCASTS), fileName);
         Log.d("s1313540", "getting file");
 
         checkAudioFile(file);
@@ -121,41 +123,58 @@ public class DownloadsMgr {
         public void PublishProgress(int progress);
     }
 
-    public static void DownloadImageFile(Context context, String hostUrl, String filename){
+    public static boolean DownloadImageFile(Context context, String hostUrl, String filename){
 
-        File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), filename);
+        File file = getImageStorageDir(context, filename);
 
         try {
-            Log.d("s1313540", "Started Download");
+            Log.d("s1313540", "Started Download" + filename);
             URL server = new URL(hostUrl);
 
-            HttpURLConnection connection = (HttpURLConnection) server.openConnection();
+            InputStream is = new BufferedInputStream(server.openStream());
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-            connection.setRequestMethod("GET");
-            connection.connect();
-            int response = connection.getResponseCode();
-
-            if(response == HttpURLConnection.HTTP_OK) {
-                InputStream is = connection.getInputStream();
-                FileOutputStream os = new FileOutputStream(file);
-
-                byte[] buffer = new byte[1024];
-                int byteReaded = is.read(buffer);
-                while (byteReaded != -1) {
-                    os.write(buffer, 0, byteReaded);
-                    byteReaded = is.read(buffer);
-                }
-                Log.d("s1313540", "Download manager: Finished Image Download");
-                os.flush();
-                os.close();
-                is.close();
+            byte[] buffer = new byte[1024];
+            int byteReaded = is.read(buffer);
+            while (byteReaded != -1) {
+                out.write(buffer, 0, byteReaded);
+                byteReaded = is.read(buffer);
             }
+            Log.d("s1313540", "Download manager: Finished Image Download");
+            out.close();
+            is.close();
+
+            byte[] response = out.toByteArray();
+            FileOutputStream os = new FileOutputStream(file);
+            os.write(response);
+            os.close();
         }
         catch (IOException e)
         {
             e.printStackTrace();
             boolean deleted = file.delete();
             Log.d("s1313540", "file deleted:" + Boolean.toString(deleted));
+            return false;
         }
+        return true;
+    }
+
+    public static File getImageStorageDir(Context context, String filename) {
+        // Get the directory for the app's private pictures directory.
+        String filePath = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath();
+        File file = new File(filePath);
+        if (!file.mkdirs()) {
+            Log.e("s1313540", "Directory not created");
+        }
+        return new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), filename);
+    }
+
+    public  static File getDownloads(Context context, String filename) {
+        String filePath = context.getExternalFilesDir(Environment.DIRECTORY_PODCASTS).getAbsolutePath();
+        File file = new File(filePath);
+        if (!file.mkdirs()) {
+            Log.e("s1313540", "Directory not created");
+        }
+        return new File(context.getExternalFilesDir(Environment.DIRECTORY_PODCASTS), filename);
     }
 }

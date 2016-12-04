@@ -45,7 +45,7 @@ public class PodcastsFragment extends Fragment {
                         podcastActivity.putExtra("pDesc", eda.getPodcastDesc());
                         podcastActivity.putExtra("pLink", eda.getPodcastLink());
                         podcastActivity.putExtra("pImageLink", eda.getPodcastImageLink());
-                        podcastActivity.putExtra("pImageFName", eda.getPodcastImageLink());
+                        podcastActivity.putExtra("pImageFName", eda.getPodcastImageFName());
                         //switch view
                         appContext.startActivity(podcastActivity);
                     }

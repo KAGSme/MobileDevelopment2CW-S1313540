@@ -1,5 +1,7 @@
 package com.wordpress.kagsme.s1313540_podcastapp;
 
+import android.graphics.Bitmap;
+
 public class DownloadItem {
 
     //Declare Variables--------------------------------------------------------
@@ -7,6 +9,7 @@ public class DownloadItem {
     private String downloadTitle;
     private String downloadLength;
     private String downloadFileName;
+    private Bitmap bitmapCover;
 
     //Declare Constructors------------------------------------------------------
 
@@ -36,6 +39,10 @@ public class DownloadItem {
         return this.downloadFileName;
     }
 
+    public Bitmap getBitmapCover(){
+        return this.bitmapCover;
+    }
+
     public void setDownloadTitle(String value){
         this.downloadTitle = value;
     }
@@ -51,5 +58,9 @@ public class DownloadItem {
 
     public void setDownloadFileName(String value){
         this.downloadFileName = value;
+    }
+
+    public void setBitmapCover(Bitmap value){
+        bitmapCover = value;
     }
 }

@@ -82,13 +82,22 @@ public class PodcastRSSparser {
                             pDataItem.setPodcastDesc(parser.nextText());
                         }
                     }
-                    if(parser.getName().equalsIgnoreCase("itunes:image"))
+                    if(parser.getName().endsWith("image"))
                     {
                         Log.e("s1313540", "got Podcast Info");
                         if(isPodcastInfo)
                         {
-                            pDataItem.setPodcastDesc(parser.getAttributeValue(null, "href"));
-                            DownloadsMgr.DownloadImageFile(appContext, pDataItem.getPodcastImageLink(),pDataItem.getPodcastImageFName());
+                            if(parser.getAttributeValue(null, "href") != null)
+                                pDataItem.setPodcastImageLink(parser.getAttributeValue(null, "href"));
+                        }
+                    }
+                    else
+                    if(parser.getName().equalsIgnoreCase("url"))
+                    {
+                        Log.e("s1313540", "got Podcast Info");
+                        if(isPodcastInfo)
+                        {
+                            pDataItem.setPodcastImageLink(parser.nextText());
                         }
                     }
                     else

@@ -51,7 +51,7 @@ public class AsyncDownloadFile extends AsyncTask<String, Integer, Boolean> {
 
     @Override
     protected void onPreExecute(){
-        Toast.makeText(appContext, "Download started!", Toast.LENGTH_LONG).show();
+        //Toast.makeText(appContext, "Download started!", Toast.LENGTH_LONG).show();
         Log.d("s1313540", "Async Download Started");
 
         mListener.showDialog(dPDialog);
