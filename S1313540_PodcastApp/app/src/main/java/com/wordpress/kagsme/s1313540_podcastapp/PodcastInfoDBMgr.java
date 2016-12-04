@@ -19,8 +19,8 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
 
     private static final int DB_VER = 1;
     private static String DB_PATH = "";
-    private static final String DB_NAME = "savedPodcasts.s3db";
-    private static final String TBL_PODCASTINFO = "podcastInfo";
+    private static final String DB_NAME = "storedPodcasts.s3db";
+    private static final String TBL_PODCASTINFO = "podcastInfos";
 
     public static final String COL_PODCASTID = "podcastID";
     public static final String COL_PODCASTTITLE = "podcastTitle";
