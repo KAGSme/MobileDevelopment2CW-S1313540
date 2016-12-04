@@ -1,5 +1,6 @@
 package com.wordpress.kagsme.s1313540_podcastapp;
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +20,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-public class PodcastEpisodesActivity extends AppCompatActivity implements AsyncRSSparser.sendEDataItemsListener{
+public class PodcastEpisodesActivity extends AppCompatActivity
+        implements AsyncRSSparser.sendEDataItemsListener, AsyncDownloadFile.showDialogListener{
 
     AsyncRSSparser aRSSParser;
     private ArrayAdapter episodeAdapter;
@@ -87,9 +89,6 @@ public class PodcastEpisodesActivity extends AppCompatActivity implements AsyncR
             case R.id.refreshList:
                 RefreshList(pLink);
                 return true;
-            case R.id.download:
-                if(selectedEpisode != null) DownloadEpisode(selectedEpisode.getEpisodeTitle(), selectedEpisode.getEpisodeLink());
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -107,7 +106,9 @@ public class PodcastEpisodesActivity extends AppCompatActivity implements AsyncR
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.download:
-                        if(selectedEpisode != null) DownloadEpisode(selectedEpisode.getEpisodeTitle(), selectedEpisode.getEpisodeLink());
+                        if(selectedEpisode != null)
+                            if(selectedEpisode.getFilename() != "")
+                                DownloadEpisode(selectedEpisode.getFilename(), selectedEpisode.getEpisodeLink());
                         return true;
                     default:
                         return false;
@@ -152,8 +153,14 @@ public class PodcastEpisodesActivity extends AppCompatActivity implements AsyncR
         episodeList.setAdapter(episodeAdapter);
     }
 
+    @Override
+    public void showDialog(DialogFragment dF){
+        dF.show(getFragmentManager(), "downloadProgress");
+    }
+
     private void DownloadEpisode(String fName, String dLink){
-        AsyncDownloadFile asyncDownloadFile = new AsyncDownloadFile(getApplicationContext(), dLink, fName);
+        AsyncDownloadFile asyncDownloadFile = new AsyncDownloadFile(getApplicationContext(), dLink, fName, this);
         asyncDownloadFile.execute();
     }
+
 }

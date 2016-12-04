@@ -29,7 +29,7 @@ public class AsyncGetPodcastInfo  extends AsyncTask<String, Integer, PodcastData
     @Override
     protected PodcastDataItem doInBackground(String... params)
     {
-        PodcastRSSparser pParser = new PodcastRSSparser();
+        PodcastRSSparser pParser = new PodcastRSSparser(appContext);
         try
         {
             pParser.ParseRSSData(podcastUrlRSS, true);

@@ -1,5 +1,6 @@
 package com.wordpress.kagsme.s1313540_podcastapp;
 
+import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -23,12 +24,15 @@ public class PodcastRSSparser {
     private PodcastDataItem pDataItem = new PodcastDataItem();
     private ArrayList<EpisodeDataItem> eDataItems = new ArrayList<EpisodeDataItem>();
     private boolean podcastInfoOnly = false;
+    private Context appContext;
 
     //Declare Constructor----------------------------------------
-    public PodcastRSSparser(){
+    public PodcastRSSparser(Context context){
+        appContext = context;
     }
 
-    public PodcastRSSparser(String podcastUrl, boolean justPodcast){
+    public PodcastRSSparser(Context context, String podcastUrl, boolean justPodcast){
+        appContext = context;
         podcastInfoOnly = justPodcast;
         try
         {
@@ -78,6 +82,15 @@ public class PodcastRSSparser {
                             pDataItem.setPodcastDesc(parser.nextText());
                         }
                     }
+                    if(parser.getName().equalsIgnoreCase("itunes:image"))
+                    {
+                        Log.e("s1313540", "got Podcast Info");
+                        if(isPodcastInfo)
+                        {
+                            pDataItem.setPodcastDesc(parser.getAttributeValue(null, "href"));
+                            DownloadsMgr.DownloadImageFile(appContext, pDataItem.getPodcastImageLink(),pDataItem.getPodcastImageFName());
+                        }
+                    }
                     else
                     if(parser.getName().equalsIgnoreCase("item"))
                     {
@@ -123,11 +136,11 @@ public class PodcastRSSparser {
                         }
                     }
                     else
-                    if(parser.getName().equalsIgnoreCase("link"))
+                    if(parser.getName().equalsIgnoreCase("Enclosure"))
                     {
                         if(!isPodcastInfo)
                         {
-                            tmpEDataItem.setEpisodeLink(parser.nextText());
+                            tmpEDataItem.setEpisodeLink(parser.getAttributeValue(null, "url"));
                         }
                     }
                     else

@@ -1,12 +1,10 @@
 package com.wordpress.kagsme.s1313540_podcastapp;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.widget.EditText;
@@ -46,6 +44,7 @@ public class AddPodcastDialog extends DialogFragment{
                     }
                 });
         builder.setTitle("Add Podcast");
+        builder.setIcon(R.drawable.ic_add_dark);
         return builder.create();
     }
     private void setUrlOutputText(String value){

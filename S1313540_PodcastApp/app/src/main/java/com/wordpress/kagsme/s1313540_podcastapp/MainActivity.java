@@ -1,6 +1,5 @@
 package com.wordpress.kagsme.s1313540_podcastapp;
 
-import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Intent;
@@ -11,12 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity
         implements AddPodcastDialog.OnCompleteListener {
@@ -117,10 +112,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void CreateDatabase() {
-        dbMgr = new PodcastInfoDBMgr(this, "savedPodcasts.s3db", null, 1);
+        dbMgr = new PodcastInfoDBMgr(this, "storedPodcasts.s3db", null, 1);
         try
         {
-            dbMgr.dbCreate();
+            PodcastInfoDBMgr.dbCreate(this);
         }
         catch (IOException e)
         {

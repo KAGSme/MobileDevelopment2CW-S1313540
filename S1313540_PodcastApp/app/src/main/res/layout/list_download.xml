@@ -7,7 +7,7 @@
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/episodeTitle"
+        android:id="@+id/downloadTitle"
         android:textStyle="normal|bold"
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
@@ -18,16 +18,7 @@
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/episodeDescription"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        android:paddingLeft="4dp" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/episodeLink"
+        android:id="@+id/downloadDuration"
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
         android:paddingLeft="4dp" />

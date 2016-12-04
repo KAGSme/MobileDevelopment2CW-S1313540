@@ -28,7 +28,7 @@ public class AsyncRSSparser extends AsyncTask<String, Integer, ArrayList<Episode
     @Override
     protected ArrayList<EpisodeDataItem> doInBackground(String... params)
     {
-        PodcastRSSparser pParser = new PodcastRSSparser();
+        PodcastRSSparser pParser = new PodcastRSSparser(appContext);
         try
         {
             pParser.ParseRSSData(podcastUrlRSS, false);

@@ -18,7 +18,7 @@ public class AboutDialogue extends DialogFragment {
                     }
                 });
         mcAboutDialog.setTitle("About");
-        mcAboutDialog.setIcon(R.drawable.ic_about);
+        mcAboutDialog.setIcon(R.drawable.ic_about_dark);
         // Create the AlertDialog object and return it
         return mcAboutDialog.create();
     }

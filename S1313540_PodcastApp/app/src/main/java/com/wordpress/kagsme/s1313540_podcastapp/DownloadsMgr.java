@@ -1,6 +1,10 @@
 package com.wordpress.kagsme.s1313540_podcastapp;
 
 import android.content.Context;
+import android.content.Intent;
+import android.media.MediaMetadataRetriever;
+import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
@@ -14,6 +18,7 @@ import java.net.URL;
 public class DownloadsMgr {
 
     private Context appContext;
+    private boolean isCancel = false;
 
     public DownloadsMgr(Context context){
         appContext = context;
@@ -21,45 +26,136 @@ public class DownloadsMgr {
 
     //code was obtained from http://stackoverflow.com/questions/7351940/how-can-i-download-audio-file-from-server-by-url
     //Modified by Kieran A. Gallagher
-    public boolean downloadFile(String hostUrl, String filename) {
+    public boolean DownloadAudioFile(String hostUrl, String filename, publishProgressInterface listener) {
+        File file = new File(appContext.getExternalFilesDir(Environment.DIRECTORY_PODCASTS) ,filename);
         try {
             Log.d("s1313540", "Started Download");
-            File file = new File(filename);
             URL server = new URL(hostUrl);
 
             HttpURLConnection connection = (HttpURLConnection) server.openConnection();
-
             long completeFileSize = connection.getContentLength();
             long downloadedFileSize = 0;
 
             connection.setRequestMethod("GET");
-            //connection.setDoInput(true);
-            //connection.setDoOutput(true);
-            //connection.setUseCaches(false);
-            //connection.addRequestProperty("Accept", "image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, audio/mpeg3 */*");
-            //connection.addRequestProperty("Accept-Language", "en-us,zh-cn;q=0.5");
-            //connection.addRequestProperty("Accept-Encoding", "gzip, deflate");
 
             connection.connect();
-            InputStream is = connection.getInputStream();
-            FileOutputStream os = appContext.openFileOutput(filename, Context.MODE_PRIVATE);
 
-            byte[] buffer = new byte[1024];
-            int byteReaded = is.read(buffer);
-            while (byteReaded != -1) {
-                downloadedFileSize += byteReaded;
-                final int currentProgress = (int) ((((double)downloadedFileSize) / ((double)completeFileSize)));
-                Log.d("s1313540", "Download Percentage: " + Integer.toString(currentProgress));
-                os.write(buffer, 0, byteReaded);
-                byteReaded = is.read(buffer);
+            int response = connection.getResponseCode();
+
+            if(response == HttpURLConnection.HTTP_OK) {
+                InputStream is = connection.getInputStream();
+                FileOutputStream os = new FileOutputStream(file);
+
+                byte[] buffer = new byte[1024];
+                int byteReaded = is.read(buffer);
+                int tmpCurrentProgress = -1;
+                while (byteReaded != -1 && !isCancel) {
+                    downloadedFileSize += byteReaded;
+                    final int currentProgress = (int) ((((double) downloadedFileSize) / ((double) completeFileSize)) * 100000d);
+                    if((currentProgress/1000) > ((tmpCurrentProgress/1000)+2))
+                    {
+                        Log.d("s1313540", "Download Percentage: " + Integer.toString(currentProgress/1000));
+                        tmpCurrentProgress = currentProgress;
+                    }
+                    os.write(buffer, 0, byteReaded);
+                    byteReaded = is.read(buffer);
+                    listener.PublishProgress(currentProgress/1000);
+                }
+                Log.d("s1313540", "Download manager Finished Download ");
+                os.flush();
+                os.close();
+                is.close();
             }
-            Log.d("s1313540", "Finished Download");
-            os.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+                e.printStackTrace();
+                boolean deleted = file.delete();
+                Log.d("s1313540", "file deleted:" + Boolean.toString(deleted));
             return false;
         }
-        return true;
+        return checkAudioFile(file);
+    }
+
+    public boolean checkAudioFile(File file){
+        boolean deleted;
+        if(file.exists())
+        {
+            Log.d("s1313540", "File exists: " + file.getName());
+
+            MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+            retriever.setDataSource(appContext, Uri.fromFile(file));
+            String isAudio = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_HAS_AUDIO);
+            if(isAudio.equals("yes")) {
+                Log.d("s1313540", "is audio: " + retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE));
+                return true;
+            }
+            else
+            {
+                Log.d("s1313540", "isn't audio:" + isAudio);
+                return false;
+            }
+        }
+        else return false;
+    }
+
+    public void PlayDownloadInExternalApp(String fileName){
+        File file = new File(appContext.getExternalFilesDir(null), fileName);
+        Log.d("s1313540", "getting file");
+
+        checkAudioFile(file);
+
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setAction(android.content.Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.fromFile(file), "audio/*");
+        appContext.startActivity(intent);
+    }
+
+    public void cancel(){
+        isCancel = true;
+    }
+
+
+    public interface publishProgressInterface{
+        public void PublishProgress(int progress);
+    }
+
+    public static void DownloadImageFile(Context context, String hostUrl, String filename){
+
+        File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), filename);
+
+        try {
+            Log.d("s1313540", "Started Download");
+            URL server = new URL(hostUrl);
+
+            HttpURLConnection connection = (HttpURLConnection) server.openConnection();
+
+            connection.setRequestMethod("GET");
+            connection.connect();
+            int response = connection.getResponseCode();
+
+            if(response == HttpURLConnection.HTTP_OK) {
+                InputStream is = connection.getInputStream();
+                FileOutputStream os = new FileOutputStream(file);
+
+                byte[] buffer = new byte[1024];
+                int byteReaded = is.read(buffer);
+                while (byteReaded != -1) {
+                    os.write(buffer, 0, byteReaded);
+                    byteReaded = is.read(buffer);
+                }
+                Log.d("s1313540", "Download manager: Finished Image Download");
+                os.flush();
+                os.close();
+                is.close();
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            boolean deleted = file.delete();
+            Log.d("s1313540", "file deleted:" + Boolean.toString(deleted));
+        }
     }
 }

@@ -4,6 +4,7 @@ public class EpisodeDataItem {
     private String episodeTitle;
     private String episodeDesc;
     private String episodeLink;
+    private String filename = "";
 
     //Declare Constructors------------------------------------------------------
 
@@ -33,6 +34,10 @@ public class EpisodeDataItem {
         return this.episodeLink;
     }
 
+    public String getFilename(){
+        return this.filename;
+    }
+
     public void setEpisodeTitle(String value){
         this.episodeTitle = value;
     }
@@ -43,5 +48,9 @@ public class EpisodeDataItem {
 
     public void setEpisodeLink(String value){
         this.episodeLink = value;
+        String[] parts = value.split("/");
+        String tmp = parts[parts.length-1].replaceAll("[?]", ",");
+        String[] otherParts = tmp.split(",");
+        this.filename = otherParts[0];
     }
 }

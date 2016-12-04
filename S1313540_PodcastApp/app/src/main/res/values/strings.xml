@@ -9,4 +9,5 @@
     <string name="aboutdialog_text">This app was developed by Kieran A. Gallagher\nS1313540 \n\nThe app can be used to view/track the episodes of a podcast and allow the user to listen to downloaded episodes.</string>
     <string name="Confirm">Confirm</string>
     <string name="testURL">http://superbestfriendsplay.com/?feed=podcast</string>
+    <string name="linkText">Link: %1$s</string>
 </resources>

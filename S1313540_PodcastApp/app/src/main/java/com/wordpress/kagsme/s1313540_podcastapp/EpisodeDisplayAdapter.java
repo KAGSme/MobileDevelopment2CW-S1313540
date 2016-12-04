@@ -31,7 +31,7 @@ public class EpisodeDisplayAdapter extends ArrayAdapter<EpisodeDataItem> {
 
         titleView.setText(eDataItem.getEpisodeTitle());
         descView.setText(eDataItem.getEpisodeDesc());
-        linkView.setText(eDataItem.getEpisodeLink());
+        linkView.setText(String.format(getContext().getResources().getString(R.string.linkText),eDataItem.getEpisodeLink()));
 
         return episodeListView;
     }
