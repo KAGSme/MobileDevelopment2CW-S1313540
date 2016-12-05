@@ -1,18 +1,24 @@
 package com.wordpress.kagsme.s1313540_podcastapp;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -22,6 +28,10 @@ public class DownloadsFragment extends Fragment {
     private Context appContext;
     private ArrayAdapter downloadAdapter;
     private ListView downloadList;
+    private DownloadItem dSelectedItem;
+
+    private SharedPreferences sharedPrefs;
+    private SavedData savdat;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -42,6 +52,20 @@ public class DownloadsFragment extends Fragment {
                     }
                 }
         );
+
+        downloadList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                showPopup(view, (DownloadItem) parent.getItemAtPosition(position));
+                return true;
+            }
+        });
+
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(appContext);
+        savdat = new SavedData(sharedPrefs);
+        //savdat.setDefaultPrefs();
+
+        //Toast.makeText(appContext, "Favourited: " + sharedPrefs.getString("favourite", "None") , Toast.LENGTH_SHORT).show();
 
         return view;
     }
@@ -79,5 +103,37 @@ public class DownloadsFragment extends Fragment {
             downloadAdapter = new DownloadDisplayAdapter(appContext, dItems);
             downloadList.setAdapter(downloadAdapter);
         }
+    }
+
+    //Create popup menu-------------------------------------------------------
+    public void showPopup(View v, DownloadItem dItem) {
+        PopupMenu popup = new PopupMenu(appContext, v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.actions_downloadsmenu, popup.getMenu());
+        dSelectedItem = dItem;
+        popup.show();
+
+        //Popup menu item selection--------------------------------------------
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener(){
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.delete:
+                        if(dSelectedItem != null)
+                            if(!dSelectedItem.getDownloadFileName().equals(""))
+                            {
+                                DownloadsMgr.deleteFile(appContext, dSelectedItem.getDownloadFileName(), Environment.DIRECTORY_PODCASTS);
+                                Toast.makeText(appContext, "File Deleted", Toast.LENGTH_SHORT).show();
+                            }
+                        RetrieveDownloadsList();
+                        return true;
+                    case R.id.favourite:
+                        savdat.savePreferences("favourite", dSelectedItem.getDownloadTitle());
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+
+        });
     }
 }

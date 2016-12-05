@@ -177,4 +177,13 @@ public class DownloadsMgr {
         }
         return new File(context.getExternalFilesDir(Environment.DIRECTORY_PODCASTS), filename);
     }
+
+    public static boolean deleteFile(Context context, String filename, String externalSubDir){
+        File file = new File(context.getExternalFilesDir(externalSubDir), filename);
+        return    file.delete();
+    }
+
+    public static boolean deleteFile(File file){
+        return file.delete();
+    }
 }
