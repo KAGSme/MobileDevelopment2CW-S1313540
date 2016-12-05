@@ -11,6 +11,7 @@ public class AsyncRSSparser extends AsyncTask<String, Integer, ArrayList<Episode
 {
     private Context appContext;
     private String podcastUrlRSS;
+    private boolean isSuccessful = false;
 
     private sendEDataItemsListener mListener;
 
@@ -31,11 +32,12 @@ public class AsyncRSSparser extends AsyncTask<String, Integer, ArrayList<Episode
         PodcastRSSparser pParser = new PodcastRSSparser(appContext);
         try
         {
-            pParser.ParseRSSData(podcastUrlRSS, false);
+            isSuccessful = pParser.ParseRSSData(podcastUrlRSS, false);
         }
         catch (MalformedURLException e)
         {
             e.printStackTrace();
+            isSuccessful = false;
         }
         return pParser.geteDataItems();
     }
@@ -44,6 +46,7 @@ public class AsyncRSSparser extends AsyncTask<String, Integer, ArrayList<Episode
     protected void onPostExecute(ArrayList<EpisodeDataItem> result)
     {
         //Toast.makeText(appContext, "Parsing finished", Toast.LENGTH_SHORT).show();
+        if(!isSuccessful)Toast.makeText(appContext, "Error: Retrieving RSS feed, please check internet connection!", Toast.LENGTH_LONG).show();
         this.mListener = (sendEDataItemsListener) appContext;
         this.mListener.SendEDataItem(result);
     }

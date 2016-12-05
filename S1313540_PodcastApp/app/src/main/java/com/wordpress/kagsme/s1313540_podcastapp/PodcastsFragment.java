@@ -3,14 +3,19 @@ package com.wordpress.kagsme.s1313540_podcastapp;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -20,6 +25,8 @@ public class PodcastsFragment extends Fragment {
     private ListView podcastList;
 
     Context appContext;
+
+    PodcastDataItem pSelectedItem;
 
     PodcastInfoDBMgr dbMgr;
 
@@ -52,6 +59,14 @@ public class PodcastsFragment extends Fragment {
                 }
         );
 
+        podcastList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                showPopup(view, (PodcastDataItem) parent.getItemAtPosition(position));
+                return true;
+            }
+        });
+
         return view;
     }
 
@@ -74,5 +89,34 @@ public class PodcastsFragment extends Fragment {
         podcastAdapter = new PodcastDisplayAdapter(appContext, dbMgr.getAllPodcastDataItems());
         podcastList.setAdapter(podcastAdapter);
         Log.d("s1313540", "displaying table as list");
+    }
+
+    //Create popup menu-------------------------------------------------------
+    public void showPopup(View v, PodcastDataItem pItem) {
+        PopupMenu popup = new PopupMenu(appContext, v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.actions_podcastinfo, popup.getMenu());
+        pSelectedItem = pItem;
+        popup.show();
+
+        //Popup menu item selection--------------------------------------------
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener(){
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.remove:
+                        if(pSelectedItem != null)
+                            if(!pSelectedItem.getPodcastTitle().equals(""))
+                            {
+                                dbMgr.removePodcastDataItem(pSelectedItem.getPodcastTitle());
+                                Toast.makeText(appContext, "Podcast Removed", Toast.LENGTH_SHORT).show();
+                            }
+                        DisplayPodcastDatabaseTableAsList();
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+
+        });
     }
 }

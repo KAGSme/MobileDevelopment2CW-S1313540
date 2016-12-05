@@ -29,7 +29,9 @@ public class DownloadDisplayAdapter extends ArrayAdapter<DownloadItem> {
         if(getItem(position) != null)dItem = getItem(position);
 
         titleView.setText(dItem.getDownloadTitle());
+        if(dItem.getIsFavourite()) titleView.setTextColor(getContext().getResources().getColor(R.color.colorAccent));
         lenView.setText(dItem.getDownloadLength());
+        if(dItem.getIsLastPlayed()) lenView.setTextColor(getContext().getResources().getColor(R.color.podRed));
         iView.setImageBitmap(dItem.getBitmapCover());
 
         return DownlodListView;

@@ -163,10 +163,12 @@ public class PodcastEpisodesActivity extends AppCompatActivity
         pBar.setVisibility(View.INVISIBLE);
 
         ArrayList<EpisodeDataItem> episodeDataItems = eDatas;
-
-        if(episodeAdapter != null)episodeAdapter.clear();
-        episodeAdapter = new EpisodeDisplayAdapter(this, episodeDataItems);
-        episodeList.setAdapter(episodeAdapter);
+        if(!eDatas.isEmpty())
+        {
+            if (episodeAdapter != null) episodeAdapter.clear();
+            episodeAdapter = new EpisodeDisplayAdapter(this, episodeDataItems);
+            episodeList.setAdapter(episodeAdapter);
+        }
     }
 
     @Override

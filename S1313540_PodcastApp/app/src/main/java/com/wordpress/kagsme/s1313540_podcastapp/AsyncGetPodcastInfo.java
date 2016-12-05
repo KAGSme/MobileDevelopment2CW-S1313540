@@ -12,6 +12,7 @@ public class AsyncGetPodcastInfo  extends AsyncTask<String, Integer, PodcastData
     private String podcastUrlRSS;
     private PodcastInfoDBMgr dbMgr;
     private PodcastsFragment pFragment;
+    private boolean isSuccessful = false;
 
     public AsyncGetPodcastInfo(Context context, String podcastUrl, PodcastInfoDBMgr databaseMgr, PodcastsFragment pF)
     {
@@ -32,7 +33,7 @@ public class AsyncGetPodcastInfo  extends AsyncTask<String, Integer, PodcastData
         PodcastRSSparser pParser = new PodcastRSSparser(appContext);
         try
         {
-            pParser.ParseRSSData(podcastUrlRSS, true);
+            isSuccessful = pParser.ParseRSSData(podcastUrlRSS, true);
         }
         catch (MalformedURLException e)
         {
@@ -44,7 +45,7 @@ public class AsyncGetPodcastInfo  extends AsyncTask<String, Integer, PodcastData
     @Override
     protected void onPostExecute(PodcastDataItem result)
     {
-        if(result != null)Toast.makeText(appContext, "Added Podcast", Toast.LENGTH_SHORT).show();
+        if(isSuccessful)Toast.makeText(appContext, "Added Podcast", Toast.LENGTH_SHORT).show();
         else Toast.makeText(appContext, "Error Adding Podcast", Toast.LENGTH_SHORT).show();
         dbMgr.addPodcastInfo(result);
         pFragment.RetrieveTable();

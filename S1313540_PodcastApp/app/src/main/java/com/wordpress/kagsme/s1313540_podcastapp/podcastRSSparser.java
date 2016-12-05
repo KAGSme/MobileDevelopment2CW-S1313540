@@ -177,7 +177,7 @@ public class PodcastRSSparser {
         }
     }
 
-    public void ParseRSSData(String RSSFeed, boolean justPodcast) throws MalformedURLException {
+    public boolean ParseRSSData(String RSSFeed, boolean justPodcast) throws MalformedURLException {
         URL rssURL = new URL(RSSFeed);
         InputStream rssInputStream;
         try
@@ -195,13 +195,16 @@ public class PodcastRSSparser {
         catch(XmlPullParserException e)
         {
             Log.e("s1313540", "Parsing error, " + e.toString());
+            return false;
         }
         catch(IOException e)
         {
             Log.e("s1313540", "IO error during parsing");
+            return false;
         }
 
         Log.e("s1313540", "End Document");
+        return true;
     }
 
     public InputStream getInputStream(URL url) throws IOException {

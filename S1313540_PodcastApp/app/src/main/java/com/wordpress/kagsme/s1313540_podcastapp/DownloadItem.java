@@ -10,6 +10,8 @@ public class DownloadItem {
     private String downloadLength;
     private String downloadFileName;
     private Bitmap bitmapCover;
+    private boolean isFavourite;
+    private boolean isLastPlayed;
 
     //Declare Constructors------------------------------------------------------
 
@@ -23,6 +25,8 @@ public class DownloadItem {
         downloadTitle = "";
         downloadLength = "";
         downloadFileName = "";
+        isFavourite = false;
+        isLastPlayed = false;
     }
 
     //Getters and setters-------------------------------------------------------
@@ -41,6 +45,14 @@ public class DownloadItem {
 
     public Bitmap getBitmapCover(){
         return this.bitmapCover;
+    }
+
+    public boolean getIsLastPlayed(){
+        return this.isLastPlayed;
+    }
+
+    public boolean getIsFavourite(){
+        return this.isFavourite;
     }
 
     public void setDownloadTitle(String value){
@@ -62,5 +74,13 @@ public class DownloadItem {
 
     public void setBitmapCover(Bitmap value){
         bitmapCover = value;
+    }
+
+    public void setFavourite(boolean value){
+        this.isFavourite = value;
+    }
+
+    public void setLastPlayed(boolean value){
+        this.isLastPlayed = value;
     }
 }

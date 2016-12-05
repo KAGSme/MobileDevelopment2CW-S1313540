@@ -20,9 +20,9 @@ public class DownloadProgressDialogue extends DialogFragment {
 
     private DownloadProgressDialogue.onCancelListener mListener;
 
-    //Set up Dialog
+    //Set up Dialog----------------------------------------------------
 
-    //contains code snippets found on developer.android.com
+    //contains code snippets found on developer.android.com, was heavily modified by me
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
         //use the builder class for convenient dialog construction
@@ -35,8 +35,7 @@ public class DownloadProgressDialogue extends DialogFragment {
                 //add action Buttons
                 .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id){
-                        mListener.OnCancel();
-                        DownloadProgressDialogue.this.getDialog().cancel();
+                        dismiss();
                     }
                 });
         builder.setTitle("Downloading...");
@@ -60,6 +59,11 @@ public class DownloadProgressDialogue extends DialogFragment {
     public void setProgress(int progress){
         pBar.setProgress(progress);
         dStatus.setText(Integer.toString(progress) + "%");
+    }
+
+    @Override
+    public void onDismiss(final DialogInterface dialog) {
+        mListener.OnCancel();
     }
 
 }

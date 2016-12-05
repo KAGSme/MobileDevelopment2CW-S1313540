@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#ffb135</color>
+    <color name="colorPrimaryDark">#ba8024</color>
+    <color name="colorAccent">#3ddbff</color>
     <color name="podRed">#ff0066</color>
     <color name="downBlue">#00a2ff</color>
     <color name="tabsScrollColor">#ffffff</color>
+    <color name="listItemColor">#fffdf2</color>
+    <color name="BackgroundColor">#4b4b4b</color>
 </resources>

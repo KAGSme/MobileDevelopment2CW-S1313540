@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -49,6 +50,8 @@ public class DownloadsFragment extends Fragment {
                         DownloadsMgr downloadsMgr = new DownloadsMgr(appContext);
                         DownloadItem dItem = (DownloadItem)parent.getItemAtPosition(position);
                         downloadsMgr.PlayDownloadInExternalApp(dItem.getDownloadFileName());
+                        savdat.savePreferences("lastPlayed", dItem.getDownloadTitle());
+                        RetrieveDownloadsList();
                     }
                 }
         );
@@ -73,6 +76,12 @@ public class DownloadsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        //RetrieveDownloadsList();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         RetrieveDownloadsList();
     }
 
@@ -89,8 +98,23 @@ public class DownloadsFragment extends Fragment {
                 MediaMetadataRetriever retriever = new MediaMetadataRetriever();
                 retriever.setDataSource(appContext, Uri.fromFile(f));
                 tmp.setDownloadFileName(f.getName());
-                tmp.setDownloadTitle(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE));
+
+                String tempStr = "";
+                tempStr = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
+                if(tempStr == null) tmp.setDownloadTitle(tmp.getDownloadFileName());
+                else tmp.setDownloadTitle(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE));
+
                 tmp.setDownloadDuration(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
+
+                try {
+                    if (tmp.getDownloadTitle().equals(sharedPrefs.getString("favourite", "None")))
+                        tmp.setFavourite(true);
+                    if (tmp.getDownloadTitle().equals(sharedPrefs.getString("lastPlayed", "None")))
+                        tmp.setLastPlayed(true);
+                }
+                catch (Exception e){
+                    Log.e("s1313540", "got null bool");
+                }
 
                 if(retriever.getEmbeddedPicture() != null)
                     tmp.setBitmapCover(BitmapFactory.decodeByteArray(retriever.getEmbeddedPicture(), 0, retriever.getEmbeddedPicture().length));
@@ -98,11 +122,11 @@ public class DownloadsFragment extends Fragment {
 
                 dItems.add(tmp);
             }
-
-            if (downloadAdapter != null) downloadAdapter.clear();
-            downloadAdapter = new DownloadDisplayAdapter(appContext, dItems);
-            downloadList.setAdapter(downloadAdapter);
         }
+
+        if (downloadAdapter != null) downloadAdapter.clear();
+        downloadAdapter = new DownloadDisplayAdapter(appContext, dItems);
+        downloadList.setAdapter(downloadAdapter);
     }
 
     //Create popup menu-------------------------------------------------------
@@ -121,13 +145,27 @@ public class DownloadsFragment extends Fragment {
                         if(dSelectedItem != null)
                             if(!dSelectedItem.getDownloadFileName().equals(""))
                             {
+                                try
+                                {
+                                    if (dSelectedItem.getDownloadTitle().equals(sharedPrefs.getString("favourite", "None")))
+                                        savdat.savePreferences("favourite", "None");
+                                    if (dSelectedItem.getDownloadTitle().equals(sharedPrefs.getString("lastPlayed", "None")))
+                                        savdat.savePreferences("lastPlayed", "None");
+                                }
+                                catch(Exception e)
+                                {
+                                    Log.e("s1313540", "got null bool");
+                                }
+
                                 DownloadsMgr.deleteFile(appContext, dSelectedItem.getDownloadFileName(), Environment.DIRECTORY_PODCASTS);
                                 Toast.makeText(appContext, "File Deleted", Toast.LENGTH_SHORT).show();
+                                RetrieveDownloadsList();
                             }
                         RetrieveDownloadsList();
                         return true;
                     case R.id.favourite:
                         savdat.savePreferences("favourite", dSelectedItem.getDownloadTitle());
+                        RetrieveDownloadsList();
                         return true;
                     default:
                         return false;
