@@ -70,6 +70,13 @@ public class PodcastEpisodesActivity extends AppCompatActivity
             }
         });
 
+        episodeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                showPopup(view, (EpisodeDataItem) parent.getItemAtPosition(position));
+            }
+        });
+
         pTitleV = (TextView)findViewById(R.id.podcastTitle);
         pDescV =  (TextView) findViewById(R.id.podcastDescription);
 

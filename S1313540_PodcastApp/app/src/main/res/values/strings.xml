@@ -10,4 +10,5 @@
     <string name="Confirm">Confirm</string>
     <string name="testURL">http://ignoverclocked.ign.libsynpro.com/rss</string>
     <string name="linkText">Link: %1$s</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

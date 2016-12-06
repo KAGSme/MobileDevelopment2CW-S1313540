@@ -5,7 +5,9 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
+import android.media.ToneGenerator;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -79,6 +81,8 @@ public class AsyncDownloadFile extends AsyncTask<String, Integer, Boolean> {
         dPDialog.dismiss();
         if(result) {
             dMgr.PlayDownloadInExternalApp(fileName);
+            ToneGenerator tGenerator = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+            tGenerator.startTone(ToneGenerator.TONE_CDMA_CONFIRM);
 
             Toast.makeText(appContext, "Download Finished!", Toast.LENGTH_SHORT).show();
             Log.d("s1313540", "Async Download Finished");

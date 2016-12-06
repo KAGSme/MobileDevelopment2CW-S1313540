@@ -1,0 +1,19 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=FA:3A:B3:A0:9C:24:55:98:1F:3B:C1:F0:EE:EC:C3:C1:58:AD:9F:9F%3Bcom.wordpress.kagsme.s1313540_podcastapp
+
+    You can also add your credentials to an existing key, using this line:
+    FA:3A:B3:A0:9C:24:55:98:1F:3B:C1:F0:EE:EC:C3:C1:58:AD:9F:9F;com.wordpress.kagsme.s1313540_podcastapp
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAq6rt-BL0QMfRjw03MH3cfA80lP3vm0UQ</string>
+</resources>

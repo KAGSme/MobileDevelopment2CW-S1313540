@@ -85,8 +85,8 @@ public class MainActivity extends AppCompatActivity
                 aboutDialog();
                 return true;
             case R.id.map:
-                Intent mapActivity = new Intent(this, MapActivity.class);
-                startActivity(mapActivity);
+                Intent mapsActivity = new Intent(this, MapsActivity.class);
+                startActivity(mapsActivity);
             default:
                 return super.onOptionsItemSelected(item);
         }
