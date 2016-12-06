@@ -1,8 +1,44 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/BackgroundColor"
+    android:layout_margin="0dp">
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Distance"
+        android:background="@drawable/listitemborder"
+        android:layout_margin="5dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/EstimatedTime"
+        android:background="@drawable/listitemborder"
+        android:layout_margin="5dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:text="Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/CalculateDistance"
+        android:layout_gravity="center_horizontal" />
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/map"
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.wordpress.kagsme.s1313540_podcastapp.MapsActivity" />
+    tools:context="com.wordpress.kagsme.s1313540_podcastapp.MapsActivity"
+        android:layout_margin="10dp" />
+</LinearLayout>
