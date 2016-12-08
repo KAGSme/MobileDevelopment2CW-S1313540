@@ -9,7 +9,7 @@ public class TabsPagerAdapter extends FragmentStatePagerAdapter {
     CharSequence tabTitles[];
     int numOfTabs;
 
-    Fragment[] registeredFragments = new Fragment[2];
+    Fragment[] registeredFragments = new Fragment[3];
 
     public TabsPagerAdapter(FragmentManager fm, CharSequence[] titles, int noTitles)
     {
@@ -25,6 +25,8 @@ public class TabsPagerAdapter extends FragmentStatePagerAdapter {
                 return registeredFragments[0] = new PodcastsFragment();
             case 1:
                 return registeredFragments[1] = new DownloadsFragment();
+            case 2:
+                return registeredFragments[2] = new CanvasFragment();
         }
         return null;
     }

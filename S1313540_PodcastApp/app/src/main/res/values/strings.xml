@@ -11,4 +11,17 @@
     <string name="testURL">http://ignoverclocked.ign.libsynpro.com/rss</string>
     <string name="linkText">Link: %1$s</string>
     <string name="title_activity_maps">Map</string>
+    <string name="DistanceDesc">Distance: </string>
+    <string name="EstimateTimeDesc">Estimated Time: </string>
+    <string name="DistanceText">%1$sKm</string>
+    <string name="EstimateTimeText">%1$s Hours</string>
+    <string name="MapDescription">Tap on a point on the map to set your destination (requires location!)</string>
+
+
+    <string-array name="speed_array">
+        <item>5 km/h</item>
+        <item>10 km/h</item>
+        <item>30 km/h</item>
+    </string-array>
+
 </resources>

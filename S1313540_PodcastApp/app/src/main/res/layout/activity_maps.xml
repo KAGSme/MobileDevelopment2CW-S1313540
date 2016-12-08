@@ -1,36 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/BackgroundColor"
     android:layout_margin="0dp">
 
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar"
         android:layout_height="wrap_content"
-        android:id="@+id/Distance"
+        android:layout_width="match_parent"
+        />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="@string/DistanceDesc"
+            android:layout_height="wrap_content"
+            android:id="@+id/DistanceDesc"
+            android:background="@drawable/listitemborder"
+            android:layout_margin="5dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:layout_width="wrap_content" />
+
+        <TextView
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Distance"
+            android:background="@drawable/listitemborder"
+            android:layout_margin="5dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="@string/EstimateTimeDesc"
+            android:layout_height="wrap_content"
+            android:id="@+id/EstimatedTimeDesc"
+            android:background="@drawable/listitemborder"
+            android:layout_margin="5dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:layout_width="wrap_content" />
+
+        <TextView
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/EstimatedTime"
+            android:background="@drawable/listitemborder"
+            android:layout_margin="5dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/listitemborder"
-        android:layout_margin="5dp"
-        android:gravity="center_vertical|center_horizontal"
-        android:layout_gravity="center_horizontal" />
+        android:layout_margin="5dp">
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/speedSpinner"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:entries="@array/speed_array" />
+
+        <Button
+            android:text="Calculate Distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/CalculateDistance"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorPrimary" />
+    </LinearLayout>
 
     <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
+        android:text="@string/MapDescription"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/EstimatedTime"
-        android:background="@drawable/listitemborder"
-        android:layout_margin="5dp"
-        android:gravity="center_vertical|center_horizontal"
-        android:layout_gravity="center_horizontal" />
-
-    <Button
-        android:text="Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/CalculateDistance"
-        android:layout_gravity="center_horizontal" />
+        android:id="@+id/textView"
+        android:textAlignment="center"
+        android:textColor="@android:color/white" />
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"

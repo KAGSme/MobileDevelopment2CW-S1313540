@@ -1,15 +1,20 @@
 package com.wordpress.kagsme.s1313540_podcastapp;
 
+import android.*;
+import android.annotation.TargetApi;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SurfaceView;
 
 import java.io.IOException;
 
@@ -23,11 +28,10 @@ public class MainActivity extends AppCompatActivity
     ViewPager pager;
     TabsPagerAdapter tabsAdapter;
     SlidingTabLayout tabs;
-    CharSequence tabTitles[]={"Podcasts", "Downloads"};
-    int numberOfTabs =2;
+    CharSequence tabTitles[]={"Podcasts", "Downloads", "Welcome"};
+    int numberOfTabs = 3;
 
     private PodcastInfoDBMgr dbMgr;
-    private boolean dbDirty;
 
     FragmentManager fmAboutDialog;
 
@@ -64,6 +68,8 @@ public class MainActivity extends AppCompatActivity
         tabs.setViewPager(pager);
 
         fmAboutDialog = this.getFragmentManager();
+
+        RequestPermissions();
     }
 
     //set up menu-----------------------------------------------------------
@@ -121,5 +127,13 @@ public class MainActivity extends AppCompatActivity
         {
             e.printStackTrace();
         }
+    }
+
+    @TargetApi(23)
+    public void RequestPermissions(){
+        int result = 1;
+        ActivityCompat.requestPermissions(this,
+                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, result);
+        Log.e("s1313540", "Permission requested");
     }
 }
