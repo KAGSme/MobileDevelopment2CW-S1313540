@@ -14,7 +14,6 @@ public class PodSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
         super(context);
         shPodSurface = getHolder();
         shPodSurface.addCallback(this);
-        drawingThread = new podcastDrawThread(getHolder(), this);
         setFocusable(true);
     }
 
@@ -22,6 +21,7 @@ public class PodSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
     {
         return drawingThread;
     }
+
     @Override
     public void surfaceCreated(SurfaceHolder holder)
     {
@@ -48,6 +48,10 @@ public class PodSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
                 e.printStackTrace();
             }
         }
+    }
+
+    public void resetDrawingThead(){
+        drawingThread = new podcastDrawThread(getHolder(), this, getContext());
     }
 }
 

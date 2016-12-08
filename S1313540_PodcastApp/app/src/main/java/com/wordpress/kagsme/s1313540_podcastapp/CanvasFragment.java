@@ -26,7 +26,8 @@ public class CanvasFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-        //view.setVisibility(View.VISIBLE);
+        //required to create new thread when resuming;
+        view.resetDrawingThead();
     }
 
 
