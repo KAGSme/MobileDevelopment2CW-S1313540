@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity
         DialogFragment aboutDig = new AboutDialogue();
         aboutDig.show(fmAboutDialog, "menu");
     }
-
+    //create the database
     public void CreateDatabase() {
         dbMgr = new PodcastInfoDBMgr(this, "savedPodcasts.s3db", null, 1);
         try
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
     }
-
+    //request permission dialog for fine location
     @TargetApi(23)
     public void RequestPermissions(){
         int result = 1;
@@ -137,3 +137,4 @@ public class MainActivity extends AppCompatActivity
         Log.e("s1313540", "Permission requested");
     }
 }
+//Authored by Kieran Anthony Gallagher S1313540

@@ -15,7 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Locale;
-
+//very similar to labs with some new classes
 public class PodcastInfoDBMgr extends SQLiteOpenHelper{
 
     private static final int DB_VER = 1;
@@ -57,7 +57,7 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
             onCreate(db);
         }
     }
-
+    //checks if dbExists, if not copy it from assets
     public void dbCreate() throws IOException{
         boolean dbExist = dbCheck();
         if(!dbExist)
@@ -73,7 +73,7 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
             }
         }
     }
-
+    //checks if db exists
     static private boolean dbCheck(){
         SQLiteDatabase db = null;
 
@@ -97,7 +97,7 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
 
         return db != null ? true : false;
     }
-
+    //copies db from assets folder
     private void copyDBFromAssets() throws IOException {
 
         InputStream dbInput = null;
@@ -125,7 +125,7 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
             throw new Error("Problems copying DB!");
         }
     }
-
+    //adds podcast item to database
     public  void addPodcastInfo(PodcastDataItem pDataItem){
         if(pDataItem != null) {
             if(pDataItem.getPodcastTitle() != "")
@@ -174,7 +174,7 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
         db.close();
         return pDataItem;
     }
-
+    //removes podcast item from database
     public boolean removePodcastDataItem(String aPodcast) {
 
         boolean result = false;
@@ -197,7 +197,7 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
         db.close();
         return result;
     }
-
+    //returns arraylist that contains all items in the database table
     public ArrayList<PodcastDataItem> getAllPodcastDataItems(){
 
         String query = "Select * FROM " + TBL_PODCASTINFO;
@@ -227,3 +227,4 @@ public class PodcastInfoDBMgr extends SQLiteOpenHelper{
     }
 
 }
+//Authored by Kieran Anthony Gallagher S1313540

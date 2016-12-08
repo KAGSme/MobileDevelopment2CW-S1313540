@@ -18,7 +18,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.TooManyListenersException;
-
+//contains a lot of code from labs with some modifications
 public class PodcastRSSparser {
     //Declare Variables------------------------------------------
     private PodcastDataItem pDataItem = new PodcastDataItem();
@@ -55,7 +55,7 @@ public class PodcastRSSparser {
         return eDataItems;
     }
 
-    //Parsing Functionality--------------------------------------
+    //Parsing Functionality for podcastInfos-----------------------------
     public void parseRSSPodcastDataItem(XmlPullParser parser, int eventType, String pLink){
         pDataItem = new PodcastDataItem();
         boolean isPodcastInfo = true;
@@ -88,6 +88,7 @@ public class PodcastRSSparser {
                         if(isPodcastInfo)
                         {
                             if(parser.getAttributeValue(null, "href") != null)
+                                //download the cover images for the podcast
                                 pDataItem.setPodcastImageLink(parser.getAttributeValue(null, "href"));
                         }
                     }
@@ -119,6 +120,7 @@ public class PodcastRSSparser {
         }
     }
 
+    //different Parsing Functionality for podcast episodes-----------------------------
     public void parseRSSDataItem(XmlPullParser parser, int eventType) {
         EpisodeDataItem tmpEDataItem = null;
         eDataItems.clear();
@@ -188,7 +190,7 @@ public class PodcastRSSparser {
             String xmlRSS = getStringFromInputStream(getInputStream(rssURL), "UTF-8");
             RSSxmlPP.setInput(new StringReader(xmlRSS));
             int eventType = RSSxmlPP.getEventType();
-
+            //decide if it just wants the podcast info or all the episodes
             if(justPodcast) parseRSSPodcastDataItem(RSSxmlPP, eventType, RSSFeed);
             else parseRSSDataItem(RSSxmlPP, eventType);
         }
@@ -227,3 +229,4 @@ public class PodcastRSSparser {
         return writer.toString();
     }
 }
+//Authored by Kieran Anthony Gallagher S1313540

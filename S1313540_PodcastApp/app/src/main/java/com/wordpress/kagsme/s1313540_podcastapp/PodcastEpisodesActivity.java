@@ -90,6 +90,7 @@ public class PodcastEpisodesActivity extends AppCompatActivity
 
         pImageV = (ImageView) findViewById(R.id.pImageViewBig);
 
+        //display podcast cover photo, if not there then redownload
         File file = DownloadsMgr.getImageStorageDir(this, iMainAct.getStringExtra("pImageFName"));
         if(file.exists()&& myBitmap == null) myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
         if(myBitmap != null)pImageV.setImageBitmap(myBitmap);
@@ -140,14 +141,14 @@ public class PodcastEpisodesActivity extends AppCompatActivity
 
         });
     }
-
+    //refresh list onResume
     @Override
     public void onResume(){
         super.onResume();
 
         RefreshList(pLink);
     }
-
+    //download, parse and display list
     private void RefreshList(String podcastURL)
     {
         if(refreshDone)
@@ -163,6 +164,7 @@ public class PodcastEpisodesActivity extends AppCompatActivity
         }
     }
 
+    //implements listener from aRSSParser to retrieve/display downloaded lists (this prevents the freezing you get from AsynchTask.execute().get())
     @Override
     public void SendEDataItem(ArrayList<EpisodeDataItem> eDatas){
 
@@ -177,15 +179,17 @@ public class PodcastEpisodesActivity extends AppCompatActivity
             episodeList.setAdapter(episodeAdapter);
         }
     }
-
+    //implements listener from AsyncDownloadFile to show the progress download dialog(have to do this in an activity)
     @Override
     public void showDialog(DialogFragment dF){
         dF.show(getFragmentManager(), "downloadProgress");
     }
 
+    //Start Asynctask to download selected episode
     private void DownloadEpisode(String fName, String dLink){
         AsyncDownloadFile asyncDownloadFile = new AsyncDownloadFile(getApplicationContext(), dLink, fName, this);
         asyncDownloadFile.execute();
     }
 
 }
+//Authored by Kieran Anthony Gallagher S1313540

@@ -129,7 +129,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onStop();
         mGoogleClient.disconnect();
     }
-
+    //check permissions then get location
     @TargetApi(23)
     @Override
     public void onConnected(Bundle connectionHint){
@@ -188,7 +188,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
     }
-
+    //display lastknown location if it was retrieved
     public void GetAndDisplayLastLoc(){
         if(myLatLing != null)
         {
@@ -202,7 +202,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         else Log.e("s1313540", "My Loc is null");
     }
-
+    //handle button on clicks
     public void onBtnClick(View v){
         switch (v.getId()){
             case R.id.CalculateDistance:
@@ -210,7 +210,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 break;
         }
     }
-
+    //calculate distance between YOU and destination and convert it to KM
+    //does not take into account roads
     public void CalculateDistance(){
         if(myLocation != null && destination != null)
         {
@@ -219,10 +220,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             distance = String.format("%.02f", result[0]/1000) ;
             distanceView.setText(String.format(getResources().getString(R.string.DistanceText), distance));
             Log.e("s1313540","distance: " + result[0]);
-
+            //need to generate a time estimat
             estimateTime = String.format("%.02f", (result[0]/1000)/speed);
             estimateView.setText(String.format(getResources().getString(R.string.EstimateTimeText), estimateTime));
         }
         else Toast.makeText(this, "Missing either Your location or Destination!", Toast.LENGTH_LONG).show();
     }
 }
+//Authored by Kieran Anthony Gallagher S1313540

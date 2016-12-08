@@ -52,7 +52,7 @@ public class PodcastDisplayAdapter extends ArrayAdapter<PodcastDataItem> {
                 e.printStackTrace();
             }
         }
-
+        //gets image to use in list, if image does not exist then it needs to be redownloaded
         if(file.exists()&& !myBitmap.containsKey(Integer.toString(position)))
             myBitmap.put(Integer.toString(position), BitmapFactory.decodeFile(file.getAbsolutePath()));
         if(myBitmap.get(Integer.toString(position)) != null)
@@ -62,3 +62,4 @@ public class PodcastDisplayAdapter extends ArrayAdapter<PodcastDataItem> {
         return podcastListView;
     }
 }
+//Authored by Kieran Anthony Gallagher S1313540

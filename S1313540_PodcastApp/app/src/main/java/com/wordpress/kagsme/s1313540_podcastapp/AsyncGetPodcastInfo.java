@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import java.net.MalformedURLException;
-
+//asyncTask class that specialises in retrieving information about a podcast
 public class AsyncGetPodcastInfo  extends AsyncTask<String, Integer, PodcastDataItem>
 {
     private Context appContext;
@@ -45,6 +45,7 @@ public class AsyncGetPodcastInfo  extends AsyncTask<String, Integer, PodcastData
     @Override
     protected void onPostExecute(PodcastDataItem result)
     {
+        //add podcast to database then refresh list
         if(isSuccessful)Toast.makeText(appContext, "Added Podcast", Toast.LENGTH_SHORT).show();
         else Toast.makeText(appContext, "Error Adding Podcast", Toast.LENGTH_SHORT).show();
         dbMgr.addPodcastInfo(result);
@@ -53,3 +54,4 @@ public class AsyncGetPodcastInfo  extends AsyncTask<String, Integer, PodcastData
     }
 }
 
+//Authored by Kieran Anthony Gallagher S1313540

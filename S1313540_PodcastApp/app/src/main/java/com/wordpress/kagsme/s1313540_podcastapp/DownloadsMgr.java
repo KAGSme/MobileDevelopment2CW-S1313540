@@ -16,7 +16,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
+//contains code snippets from https://developer.android.com/training/basics/data-storage/files.html, modified by Kieran Gallagher
+//contains code snippets from http://stackoverflow.com/questions/7351940/how-can-i-download-audio-file-from-server-by-url, heavily modified by Kieran Gallagher
+//This was used to help with downloading images http://stackoverflow.com/questions/29625655/best-way-to-download-image-from-url-and-save-it-into-internal-storage-memory
 public class DownloadsMgr {
 
     private Context appContext;
@@ -53,6 +55,7 @@ public class DownloadsMgr {
                 int tmpCurrentProgress = -1;
                 while (byteReaded != -1 && !isCancel) {
                     downloadedFileSize += byteReaded;
+                    //get progress to be used in a dialog later
                     final int currentProgress = (int) ((((double) downloadedFileSize) / ((double) completeFileSize)) * 100000d);
                     if((currentProgress/1000) > ((tmpCurrentProgress/1000)+2))
                     {
@@ -78,7 +81,7 @@ public class DownloadsMgr {
         }
         return checkAudioFile(file);
     }
-
+    //check that audiofile exists
     public boolean checkAudioFile(File file){
         boolean deleted;
         if(file.exists())
@@ -87,6 +90,7 @@ public class DownloadsMgr {
 
             MediaMetadataRetriever retriever = new MediaMetadataRetriever();
             retriever.setDataSource(appContext, Uri.fromFile(file));
+            //used to confirm that this is an audio file
             String isAudio = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_HAS_AUDIO);
             if(isAudio.equals("yes")) {
                 Log.d("s1313540", "is audio: " + retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE));
@@ -100,7 +104,7 @@ public class DownloadsMgr {
         }
         else return false;
     }
-
+    //some of the code is from http://stackoverflow.com/questions/3114471/android-launching-music-player-using-intent
     public void PlayDownloadInExternalApp(String fileName){
         File file = new File(appContext.getExternalFilesDir(Environment.DIRECTORY_PODCASTS), fileName);
         Log.d("s1313540", "getting file");
@@ -118,7 +122,7 @@ public class DownloadsMgr {
         isCancel = true;
     }
 
-
+    //interface that publishes progress by sending the status of download
     public interface publishProgressInterface{
         public void PublishProgress(int progress);
     }
@@ -158,7 +162,7 @@ public class DownloadsMgr {
         }
         return true;
     }
-
+    //get specific image file
     public static File getImageStorageDir(Context context, String filename) {
         // Get the directory for the app's private pictures directory.
         String filePath = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath();
@@ -168,7 +172,7 @@ public class DownloadsMgr {
         }
         return new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), filename);
     }
-
+    //get specific audio file
     public  static File getDownloads(Context context, String filename) {
         String filePath = context.getExternalFilesDir(Environment.DIRECTORY_PODCASTS).getAbsolutePath();
         File file = new File(filePath);
@@ -177,7 +181,7 @@ public class DownloadsMgr {
         }
         return new File(context.getExternalFilesDir(Environment.DIRECTORY_PODCASTS), filename);
     }
-
+    //remove file from storage
     public static boolean deleteFile(Context context, String filename, String externalSubDir){
         File file = new File(context.getExternalFilesDir(externalSubDir), filename);
         return    file.delete();
@@ -187,3 +191,4 @@ public class DownloadsMgr {
         return file.delete();
     }
 }
+//Authored by Kieran Anthony Gallagher S1313540

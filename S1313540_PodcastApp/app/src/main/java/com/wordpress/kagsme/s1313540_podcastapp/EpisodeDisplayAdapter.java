@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+//used to display episode data in a list
 public class EpisodeDisplayAdapter extends ArrayAdapter<EpisodeDataItem> {
 
     EpisodeDisplayAdapter(Context context, ArrayList<EpisodeDataItem> items){
@@ -36,3 +37,4 @@ public class EpisodeDisplayAdapter extends ArrayAdapter<EpisodeDataItem> {
         return episodeListView;
     }
 }
+//Authored by Kieran Anthony Gallagher S1313540

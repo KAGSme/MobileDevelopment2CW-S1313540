@@ -14,7 +14,7 @@ import android.view.SurfaceHolder;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
 import java.io.File;
-
+//mostly lab code with additions
 public class podcastDrawThread extends Thread{
     private int canvasWidth;
     private int canvasHeight;
@@ -83,7 +83,7 @@ public class podcastDrawThread extends Thread{
             drawCircles(canvas);
             drawLine(canvas);
             canvas.drawBitmap(BitmapFactory.decodeResource(appContext.getResources(),R.mipmap.ic_launcher),0, 0, podPaint);
-
+            //need to get file baths for image bitmaps
             File[] files;
             if(appContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES).listFiles().length > 0)
                 files = appContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES).listFiles();
@@ -97,7 +97,7 @@ public class podcastDrawThread extends Thread{
             }
         }
     }
-
+    //draw lines that encase the circle
     public void drawLine(Canvas theCanvas) {
         podPaint.setColor(Color.BLACK);
         theCanvas.drawLine(0, HalfAppletHeight + 150, canvasWidth, HalfAppletHeight + 150,
@@ -109,7 +109,7 @@ public class podcastDrawThread extends Thread{
         theCanvas.drawLine(HalfAppletWidth + 150, 0, HalfAppletWidth + 150, canvasHeight,
                 podPaint);
     }
-
+    //draw one circle then another inside it
     public void drawCircles(Canvas theCanvas) {
         podPaint.setColor(Color.BLACK);
         theCanvas.drawCircle(HalfAppletWidth, HalfAppletHeight, 150,
@@ -118,13 +118,12 @@ public class podcastDrawThread extends Thread{
         theCanvas.drawCircle(HalfAppletWidth, HalfAppletHeight, 100,
                 podPaint);
     }
-
+    //draw a list of podcast cover art
     public void drawPodcastImages(Canvas theCanvas, String filePath, int i){
         theCanvas.drawBitmap(BitmapFactory.decodeFile(filePath),null, new RectF(canvasWidth - 150, 100 * i, canvasWidth - 50, (100 * i) + 100), podPaint);
     }
 
 
 }
-
 
 //Authored by Kieran Anthony Gallagher S1313540

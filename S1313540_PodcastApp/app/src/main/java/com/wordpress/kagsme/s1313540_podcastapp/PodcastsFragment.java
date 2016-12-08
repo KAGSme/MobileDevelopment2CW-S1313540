@@ -83,7 +83,7 @@ public class PodcastsFragment extends Fragment {
     public void RetrieveTable(){
         dbMgr = ((MainActivity) getActivity()).getDbMgr();
     }
-
+    //retrieve podcasts from database and put them in display adapter for list
     public void DisplayPodcastDatabaseTableAsList(){
         if(podcastAdapter != null) podcastAdapter.clear();
         podcastAdapter = new PodcastDisplayAdapter(appContext, dbMgr.getAllPodcastDataItems());
@@ -107,9 +107,11 @@ public class PodcastsFragment extends Fragment {
                         if(pSelectedItem != null)
                             if(!pSelectedItem.getPodcastTitle().equals(""))
                             {
+                                //remove podcast item from database
                                 dbMgr.removePodcastDataItem(pSelectedItem.getPodcastTitle());
                                 Toast.makeText(appContext, "Podcast Removed", Toast.LENGTH_SHORT).show();
                             }
+                        //redisplay table of podcasts
                         DisplayPodcastDatabaseTableAsList();
                         return true;
                     default:
@@ -120,3 +122,4 @@ public class PodcastsFragment extends Fragment {
         });
     }
 }
+//Authored by Kieran Anthony Gallagher S1313540

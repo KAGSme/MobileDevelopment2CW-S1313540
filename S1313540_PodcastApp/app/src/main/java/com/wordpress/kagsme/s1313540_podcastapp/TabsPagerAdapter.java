@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+//contains code snippets from http://www.android4devs.com/2015/01/how-to-make-material-design-sliding-tabs.html modified by Kieran Gallagher
+
 public class TabsPagerAdapter extends FragmentStatePagerAdapter {
 
     CharSequence tabTitles[];
@@ -46,3 +48,4 @@ public class TabsPagerAdapter extends FragmentStatePagerAdapter {
         return registeredFragments[position];
     }
 }
+//Authored by Kieran Anthony Gallagher S1313540

@@ -47,6 +47,7 @@ public class EpisodeDataItem {
     }
 
     public void setEpisodeLink(String value){
+        //episode file name can be derived from link effectively, stuff must be removed though from string
         this.episodeLink = value;
         String[] parts = value.split("/");
         String tmp = parts[parts.length-1].replaceAll("[?]", ",");
@@ -54,3 +55,4 @@ public class EpisodeDataItem {
         this.filename = otherParts[0];
     }
 }
+//Authored by Kieran Anthony Gallagher S1313540

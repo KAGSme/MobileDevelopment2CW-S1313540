@@ -53,3 +53,4 @@ public class AsyncTaskDownloadImage  extends AsyncTask<String, Integer, Boolean>
         }
     }
 }
+//Authored by Kieran Anthony Gallagher S1313540

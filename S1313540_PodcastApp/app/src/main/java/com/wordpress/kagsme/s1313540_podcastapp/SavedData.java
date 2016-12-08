@@ -44,7 +44,7 @@ public class SavedData {
         }
         //setDefaultPrefs();
     }
-
+    //save string preferences
     public void savePreferences(String key, String value){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(key, value);
@@ -56,3 +56,4 @@ public class SavedData {
         savePreferences("lastPlayed", "");
     }
 }
+//Authored by Kieran Anthony Gallagher S1313540

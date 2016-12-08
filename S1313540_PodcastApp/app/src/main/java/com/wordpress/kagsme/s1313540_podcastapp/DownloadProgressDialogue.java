@@ -47,7 +47,7 @@ public class DownloadProgressDialogue extends DialogFragment {
 
         return builder.create();
     }
-
+    //set listener for interface when the dialog is cancelled
     public void setOnCancelListener(DownloadProgressDialogue.onCancelListener listener){
         mListener = listener;
     }
@@ -55,15 +55,16 @@ public class DownloadProgressDialogue extends DialogFragment {
     public interface onCancelListener{
         public void OnCancel();
     }
-
+    //display progress
     public void setProgress(int progress){
         pBar.setProgress(progress);
         dStatus.setText(Integer.toString(progress) + "%");
     }
-
+ //call cancel listener when the dialog is dismissed
     @Override
     public void onDismiss(final DialogInterface dialog) {
         mListener.OnCancel();
     }
 
 }
+//Authored by Kieran Anthony Gallagher S1313540

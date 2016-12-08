@@ -55,7 +55,7 @@ public class AsyncDownloadFile extends AsyncTask<String, Integer, Boolean> {
     protected void onPreExecute(){
         //Toast.makeText(appContext, "Download started!", Toast.LENGTH_LONG).show();
         Log.d("s1313540", "Async Download Started");
-
+        //call the showDialog on the listener
         mListener.showDialog(dPDialog);
     }
 
@@ -81,6 +81,7 @@ public class AsyncDownloadFile extends AsyncTask<String, Integer, Boolean> {
         dPDialog.dismiss();
         if(result) {
             dMgr.PlayDownloadInExternalApp(fileName);
+            //play a sound when downloaded
             ToneGenerator tGenerator = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
             tGenerator.startTone(ToneGenerator.TONE_CDMA_CONFIRM);
 
@@ -94,11 +95,14 @@ public class AsyncDownloadFile extends AsyncTask<String, Integer, Boolean> {
         }
     }
 
+    //show dialog listener
     public interface showDialogListener{
         public void showDialog(DialogFragment dF);
     }
 
+    //set the listener
     public void setShowDialogListener(showDialogListener listener){
         mListener = listener;
     }
 }
+//Authored by Kieran Anthony Gallagher S1313540

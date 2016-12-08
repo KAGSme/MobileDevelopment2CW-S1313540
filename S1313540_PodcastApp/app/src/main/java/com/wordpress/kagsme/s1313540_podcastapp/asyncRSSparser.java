@@ -56,3 +56,4 @@ public class AsyncRSSparser extends AsyncTask<String, Integer, ArrayList<Episode
     }
 }
 
+//Authored by Kieran Anthony Gallagher S1313540

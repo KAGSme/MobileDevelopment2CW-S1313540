@@ -84,7 +84,7 @@ public class DownloadsFragment extends Fragment {
         super.onStart();
         RetrieveDownloadsList();
     }
-
+    //create list based on files from the DIRECTORY_PODCASTS in the apps podcast directory
     public void RetrieveDownloadsList() {
         File[] files;
         if(appContext.getExternalFilesDir(Environment.DIRECTORY_PODCASTS).listFiles().length > 0)
@@ -105,7 +105,7 @@ public class DownloadsFragment extends Fragment {
                 else tmp.setDownloadTitle(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE));
 
                 tmp.setDownloadDuration(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
-
+                //check preferences for favourited/ lastplayed podcast
                 try {
                     if (tmp.getDownloadTitle().equals(sharedPrefs.getString("favourite", "None")))
                         tmp.setFavourite(true);
@@ -115,7 +115,7 @@ public class DownloadsFragment extends Fragment {
                 catch (Exception e){
                     Log.e("s1313540", "got null bool");
                 }
-
+                //display embedded cover art for episode, if none exists then use a default icon
                 if(retriever.getEmbeddedPicture() != null)
                     tmp.setBitmapCover(BitmapFactory.decodeByteArray(retriever.getEmbeddedPicture(), 0, retriever.getEmbeddedPicture().length));
                 else tmp.setBitmapCover(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_action_play));
@@ -147,6 +147,7 @@ public class DownloadsFragment extends Fragment {
                             {
                                 try
                                 {
+                                    //remove episode from preferences if it was there
                                     if (dSelectedItem.getDownloadTitle().equals(sharedPrefs.getString("favourite", "None")))
                                         savdat.savePreferences("favourite", "None");
                                     if (dSelectedItem.getDownloadTitle().equals(sharedPrefs.getString("lastPlayed", "None")))
@@ -164,6 +165,7 @@ public class DownloadsFragment extends Fragment {
                         RetrieveDownloadsList();
                         return true;
                     case R.id.favourite:
+                        //set favourite preference on selected download item
                         savdat.savePreferences("favourite", dSelectedItem.getDownloadTitle());
                         RetrieveDownloadsList();
                         return true;
@@ -175,3 +177,4 @@ public class DownloadsFragment extends Fragment {
         });
     }
 }
+//Authored by Kieran Anthony Gallagher S1313540

@@ -27,7 +27,7 @@ public class DownloadDisplayAdapter extends ArrayAdapter<DownloadItem> {
 
         DownloadItem dItem = new DownloadItem();
         if(getItem(position) != null)dItem = getItem(position);
-
+        //checks if the download was marked as either last played or as favourite then colours the appropriate view
         titleView.setText(dItem.getDownloadTitle());
         if(dItem.getIsFavourite()) titleView.setTextColor(getContext().getResources().getColor(R.color.colorAccent));
         lenView.setText(dItem.getDownloadLength());
@@ -37,3 +37,4 @@ public class DownloadDisplayAdapter extends ArrayAdapter<DownloadItem> {
         return DownlodListView;
         }
 }
+//Authored by Kieran Anthony Gallagher S1313540

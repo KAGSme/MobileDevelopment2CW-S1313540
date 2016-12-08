@@ -60,6 +60,7 @@ public class DownloadItem {
     }
 
     public void setDownloadDuration(String value){
+        //code from http://stackoverflow.com/questions/10553531/what-is-the-unit-of-measurment-for-media-duration-in-mediametadataretriever, modified by me
         long durationMs = Long.parseLong(value);
         long duration = durationMs/1000;
         long h = duration / 3600;
@@ -84,3 +85,4 @@ public class DownloadItem {
         this.isLastPlayed = value;
     }
 }
+//Authored by Kieran Anthony Gallagher S1313540

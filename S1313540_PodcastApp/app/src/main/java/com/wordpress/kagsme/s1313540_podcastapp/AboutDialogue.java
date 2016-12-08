@@ -23,3 +23,4 @@ public class AboutDialogue extends DialogFragment {
         return mcAboutDialog.create();
     }
 }
+//Authored by Kieran Anthony Gallagher S1313540

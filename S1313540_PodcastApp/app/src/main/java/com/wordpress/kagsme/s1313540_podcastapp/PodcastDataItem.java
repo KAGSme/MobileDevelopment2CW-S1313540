@@ -83,8 +83,10 @@ public class PodcastDataItem {
     }
 
     private void createImageFName(String link){
+        //need to derive file name from link
         String[] parts = link.split("/");
         String tmp = parts[parts.length-1];
         setPodcastImageFName(tmp);
     }
 }
+//Authored by Kieran Anthony Gallagher S1313540

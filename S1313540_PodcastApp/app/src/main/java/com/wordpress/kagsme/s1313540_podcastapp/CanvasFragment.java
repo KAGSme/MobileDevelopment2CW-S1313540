@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+//fragment that displays canvas drawing
 public class CanvasFragment extends Fragment {
 
     PodSurfaceView view;

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+//codes mostly similar to what was in the lab
 public class PodSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
     private SurfaceHolder shPodSurface;
@@ -49,7 +50,7 @@ public class PodSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
             }
         }
     }
-
+    //have to recreate drawing thread on view on resume
     public void resetDrawingThead(){
         drawingThread = new podcastDrawThread(getHolder(), this, getContext());
     }
